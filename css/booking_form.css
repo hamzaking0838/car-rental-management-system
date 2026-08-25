@@ -1,0 +1,213 @@
+/* page background (animated subtle gradient) */
+.booking-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.progress-fill-step-1 {
+  width: 33%;
+}
+
+/* animated background */
+.bg-animated {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #001820 0%, #00363d 40%, #001220 100%);
+  background-size: 400% 400%;
+  animation: bgShift 12s ease infinite;
+  z-index: 0;
+}
+@keyframes bgShift {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* center card */
+.booking-wrap { position: relative; z-index: 5; width: 100%; padding: 40px 20px; box-sizing: border-box; }
+.booking-card {
+  max-width: 1100px; margin: 0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  /* Use the accent colour for the card border so that it adapts to the active theme */
+  border: 1px solid var(--primary-color);
+  /* Set text colour to the lighter end of the primary gradient.  This prevents
+     a teal tint from lingering when the gold theme is active. */
+  color: var(--primary-gradient-start);
+}
+
+/* header */
+.booking-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  /* Use the primary accent colour for the form heading so it adapts to the active theme */
+  color: var(--primary-color);
+  letter-spacing: .6px;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-align: center;
+}
+.booking-header .muted { /* Use the lighter gradient colour for muted text so it adapts to the active theme */ color: var(--primary-gradient-start); text-align:center; margin-top:6px; }
+
+/* progress */
+.progress-bar { margin: 18px 0 12px; }
+.step-indicator { display:flex; justify-content:space-between; gap:8px; padding:0 6px; }
+.step { display:flex; flex-direction:column; align-items:center; width:33%; text-align:center; /* Step labels use the accent colour with transparency so they follow the active theme */ color: rgba(var(--ap-primary-rgb), 0.65); }
+.step span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  /* Step numbers adopt the accent colour */
+  color: var(--primary-color);
+  font-weight: 700;
+}
+.step small { font-size:11px; margin-top:6px; display:block; opacity:0.85; }
+.step-active span {
+  /* Active step uses a gradient between the accent colour and its hover end shade */
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover-end));
+  color: #001;
+  box-shadow: 0 8px 20px var(--primary-shadow-color);
+  border: none;
+}
+
+/* progress line */
+.progress-line { height:6px; background:rgba(255,255,255,0.03); border-radius:6px; margin-top:10px; overflow:hidden; }
+.progress-fill {
+  height: 100%;
+  /* Progress bar fill matches the active palette */
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover-end));
+  width: 33%;
+  transition: width .45s cubic-bezier(.2,.9,.3,1);
+}
+
+/* form steps */
+.form-step { display:none; opacity:0; transform: translateY(12px); transition: all .45s cubic-bezier(.2,.9,.3,1); }
+.form-step-active { display:block; opacity:1; transform: translateY(0); }
+
+/* inputs */
+label { display:block; color: var(--primary-gradient-start); font-weight:600; margin-bottom:6px; font-size:0.95rem; }
+ .form-control, .form-select, textarea {
+   width: 100%;
+   padding: 10px 12px;
+   border-radius: 10px;
+   border: 1px solid rgba(255, 255, 255, 0.06);
+   background: rgba(0, 0, 0, 0.25);
+   /* Force white text for all booking form inputs so user‑entered data stands out clearly against the dark card. */
+   color: #ffffff;
+   outline: none;
+   transition: box-shadow .2s, transform .15s;
+ }
+.form-control:focus, .form-select:focus, textarea:focus {
+  box-shadow: 0 0 18px var(--primary-shadow-color);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+/* preview panel */
+.preview-panel { display:flex; align-items:flex-start; justify-content:center; padding-left:18px; }
+.car-preview-card {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  /* Border uses the accent colour */
+  border: 1px solid var(--primary-color);
+}
+.car-image-wrap { height:160px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.15)); }
+.car-image-wrap img { width:100%; height:100%; object-fit:cover; transition: transform .5s; }
+.car-preview-card h4 {
+  margin: 10px 0 4px;
+  color: var(--primary-color);
+  font-size: 1.05rem;
+}
+.car-preview-card p { margin:0; /* Use the lighter gradient colour instead of a hard‑coded aqua */ color: var(--primary-gradient-start); font-size:0.9rem; }
+
+/* review */
+.review-box {
+  background: rgba(0,0,0,0.12);
+  border-radius: 12px;
+  padding: 18px;
+  /* Border uses the accent colour */
+  border: 1px solid var(--primary-color);
+}
+.review-box h3 {
+  color: var(--primary-color);
+  margin: 0 0 10px;
+}
+.review-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; /* Reviews adopt the lighter gradient colour rather than a hard‑coded aqua */ color: var(--primary-gradient-start); }
+.review-grid div strong {
+  display: block;
+  color: var(--primary-color);
+  margin-bottom: 6px;
+}
+
+/* nav buttons */
+.wizard-nav { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; align-items:center; }
+.btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: transparent;
+  /* Base button colour uses the accent colour for consistency */
+  color: var(--primary-color);
+  cursor: pointer;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary-color);
+}
+.btn-primary {
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover-end));
+  color: #001;
+  border: none;
+  box-shadow: 0 8px 22px var(--primary-shadow-color);
+}
+.btn-submit {
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover-end));
+  color: #001;
+  padding: 12px 18px;
+}
+
+/* small feedback */
+.form-msg {
+  margin-top: 12px;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-align: center;
+  min-height: 26px;
+}
+
+/* file previews */
+.file-previews { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.file-previews img {
+  width: 110px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 6px 18px var(--primary-shadow-color);
+}
+
+/* responsive */
+@media (max-width:991px) {
+  .preview-panel { padding-left:0; margin-top:16px; }
+  .review-grid { grid-template-columns:1fr; }
+}
+@media (max-width:575px) {
+  .booking-card { padding:18px; }
+  .step-indicator .step small { display:none; }
+  .car-image-wrap { height:130px; }
+}

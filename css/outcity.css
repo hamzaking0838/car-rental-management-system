@@ -1,0 +1,72 @@
+
+/* Scroll animation for section */
+#outcity-animate {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#outcity-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Heading Animation */
+
+
+#outcity h2.in-view {
+  color: black;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Table Styling */
+#outcity table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Table cells */
+#outcity th{
+  /* Use the primary colour and its hover end shade for the table header gradient */
+  background: linear-gradient(145deg, var(--primary-color), var(--primary-hover-end));
+  color: rgb(8, 8, 8);
+  padding: 18px;
+  text-align: center;
+  border: 1px solid #c2c0c0;
+  transition: all 0.4s ease-in-out;
+}
+
+.outcity-divider {
+  width: 250px;
+  border-top: 2px solid #c5c5c5;
+}
+
+#outcity td{
+  padding: 18px;
+  text-align: center;
+  border: 1px solid #c2c0c0;
+  background: #f1f1f1;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Hover effect for entire cell */
+#outcity td:hover {
+  background: linear-gradient(125deg, var(--primary-hover-start), #a5a5a5);
+  box-shadow: 0 6px 20px var(--primary-shadow-color);
+  transform: scale(1.02);
+  color: #003344;
+}
+
+/* Optional: Hover glow for header cells too */
+#outcity th:hover {
+  background: linear-gradient(190deg, var(--primary-hover-start), #949393);
+  box-shadow: 0 6px 20px var(--primary-shadow-color);
+  transform: scale(1.02);
+}
+
+
+

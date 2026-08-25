@@ -1,0 +1,366 @@
+
+
+:root {
+  --ap-sidebar-width: 260px;
+  
+  --ap-primary: var(--primary-color);
+  
+  --ap-dark: #001f3f;
+
+  
+  --ap-gradient-start: var(--primary-gradient-start);
+  --ap-gradient-end: var(--primary-gradient-end);
+}
+
+body.admin-panel {
+  background: #f5f6f8;
+}
+
+.ap-shell {
+  min-height: 100vh;
+}
+
+
+.ap-sidebar {
+  width: var(--ap-sidebar-width);
+  background: var(--ap-dark);
+  color: #e5e7eb;
+}
+
+.ap-brand {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* Base navigation links */
+.ap-nav .nav-link {
+  color: #d1d5db;
+  border-radius: 10px;
+  padding: 10px 12px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover state uses a faint version of the accent colour */
+.ap-nav .nav-link:hover {
+  /* Use the RGB components of the accent colour so that the hover background
+     adjusts automatically with the theme. */
+  background: rgba(var(--ap-primary-rgb), 0.1);
+  color: #ffffff;
+}
+
+/* Active state uses the accent colour */
+.ap-nav .nav-link.active {
+  background: rgba(var(--ap-primary-rgb), 0.18);
+  color: #ffffff;
+}
+
+/* Main content */
+.ap-main {
+  width: 100%;
+}
+
+.ap-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Base card styling */
+.ap-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #ffffff;
+  transition: box-shadow 0.2s ease;
+}
+.ap-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.ap-section-title {
+  font-weight: 700;
+}
+
+/* Tables */
+.ap-table {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.ap-thead {
+  background: #111827;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.ap-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.ap-switch {
+  cursor: pointer;
+}
+
+/* Thumbnail images used in tables (CNIC front/back etc.) */
+.ap-thumb{
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.12);
+}
+
+.ap-thumb:hover{
+  transform: scale(1.03);
+  transition: transform .12s ease;
+}
+
+/* Truncate long text inside tables */
+.ap-ellipsis{
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Section specific accents.  All sections except the car management section
+   receive a coloured border and subtle shadow using the accent colour. */
+#section-dashboard .ap-card,
+#section-bookings .ap-card,
+#section-customers .ap-card,
+#section-payments .ap-card,
+#section-contacts .ap-card {
+  border-color: var(--ap-primary);
+  box-shadow: 0 4px 12px rgba(var(--ap-primary-rgb), 0.1);
+}
+
+/* Section headings adopt the dark colour for consistency */
+#section-dashboard .ap-section-title,
+#section-bookings .ap-section-title,
+#section-customers .ap-section-title,
+#section-payments .ap-section-title,
+#section-contacts .ap-section-title {
+  color: var(--ap-dark);
+}
+
+/* Table headers use the dark colour as a background and white text */
+#section-dashboard table thead,
+#section-bookings table thead,
+#section-customers table thead,
+#section-payments table thead,
+#section-contacts table thead {
+  background: var(--ap-dark);
+  color: #ffffff;
+}
+
+/* Buttons in non-car sections reflect the accent colour */
+#section-dashboard .btn-outline-secondary,
+#section-bookings .btn-outline-secondary,
+#section-customers .btn-outline-secondary,
+#section-payments .btn-outline-secondary,
+#section-contacts .btn-outline-secondary {
+  border-color: var(--ap-primary);
+  color: var(--ap-primary);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+#section-dashboard .btn-outline-secondary:hover,
+#section-bookings .btn-outline-secondary:hover,
+#section-customers .btn-outline-secondary:hover,
+#section-payments .btn-outline-secondary:hover,
+#section-contacts .btn-outline-secondary:hover {
+  background: var(--ap-primary);
+  color: #ffffff;
+}
+
+/* Row hover highlighting for tables in non-car sections */
+#section-dashboard table tbody tr:hover,
+#section-bookings table tbody tr:hover,
+#section-customers table tbody tr:hover,
+#section-payments table tbody tr:hover,
+#section-contacts table tbody tr:hover {
+  background: rgba(var(--ap-primary-rgb), 0.05);
+}
+
+/* Responsive behaviour for the sidebar and hamburger menu */
+#menuToggle {
+  display: none;
+  color: var(--ap-primary);
+  font-size: 1.6rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+  user-select: none;
+}
+
+@media (max-width: 991.98px) {
+  /* Show hamburger button on smaller screens */
+  #menuToggle {
+    display: block;
+  }
+
+  /* Sidebar becomes an off‑canvas panel */
+  .ap-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1050;
+  }
+  .ap-sidebar.show {
+    transform: translateX(0);
+  }
+
+  /* Overlay for mobile when sidebar is open */
+  .ap-overlay {
+    display: none;
+  }
+  .ap-overlay.show {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+}
+
+/* =======================
+   Custom enhancements
+   ======================= */
+
+/* Icons in the sidebar navigation.  Each link can contain a FontAwesome icon
+   before the text; this class ensures consistent spacing between the icon
+   and label. */
+.ap-nav .nav-link i {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+/* Dashboard metric cards adopt a gradient drawn from the car cards on the
+   frontend.  These cards display summary statistics such as total bookings
+   or available cars.  They use white text to maintain contrast against
+   the colourful background. */
+/*
+ * Dashboard metric cards were previously styled with a vivid gradient and white
+ * text.  While this looked appealing in the default aqua theme, it caused
+ * problems when switching to the gold palette – the gradient remained aqua
+ * and created poor contrast.  To simplify the appearance and ensure theme
+ * colours propagate correctly, these cards now have a transparent/white
+ * background and a coloured border that tracks the active accent colour via
+ * --ap-primary.  The card text adopts the dark colour variable so it stays
+ * legible on the lighter background.  We also remove the heavy box shadow
+ * and rely on a subtle shadow on hover defined on the base .ap-card class.
+ */
+.ap-metric-card {
+  /* Inherit the base card background (white) instead of a gradient */
+  background: #ffffff;
+  /* Set a 2px border using the current accent colour */
+  border: 2px solid var(--ap-primary) !important;
+  /* Use the dark colour for text so it contrasts against the light background */
+  color: var(--ap-dark);
+  /* Remove the original shadow; hover shadow is handled by .ap-card */
+  box-shadow: none !important;
+}
+
+/*
+ * Highlight the primary statistic within each metric card using the accent
+ * colour.  The large number is marked up with Bootstrap’s .fw-bold class,
+ * so this rule targets that element specifically to ensure it adopts
+ * var(--ap-primary) regardless of the surrounding text colour.
+ */
+.ap-metric-card .fw-bold {
+  color: var(--ap-primary);
+}
+
+/* Override the secondary text colour inside metric cards.  Use a slightly
+   muted version of the dark colour instead of white to maintain contrast
+   and visual hierarchy.  Bootstrap’s .text-secondary normally renders
+   grey text; we tie it to the dark colour at reduced opacity. */
+.ap-metric-card .text-secondary {
+  color: rgba(var(--ap-primary-rgb), 0.8) !important;
+}
+
+/* Adjust the appearance of the top bar to better match the sidebar.  Using
+   a subtle gradient and white text ties together the overall look and feels
+   consistent with the dark aesthetic of the site. */
+.ap-topbar {
+  background: linear-gradient(145deg, var(--ap-dark), #071d3b);
+  color: #ffffff;
+  border-bottom: none;
+}
+.ap-topbar .text-secondary {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+.ap-topbar .badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/*
+ * Override Bootstrap’s bg-primary utility within the sidebar so that the
+ * small status dot and any other primary coloured backgrounds use the
+ * accent colour instead of the default Bootstrap blue.  This ensures
+ * consistency between the sidebar brand mark and the selected theme.
+ */
+.ap-sidebar .bg-primary {
+  background-color: var(--ap-primary) !important;
+}
+
+/* Restyle the logout button to better fit the dark sidebar. */
+.ap-sidebar #logoutBtn {
+  border-color: var(--ap-primary);
+  color: var(--ap-primary);
+}
+.ap-sidebar #logoutBtn:hover {
+  background: var(--ap-primary);
+  /* Use the dark colour variable so the logout button text adapts to the
+     current theme (black in the gold theme, dark blue in the default). */
+  color: var(--ap-dark);
+}
+
+/* Accent overrides inserted via automation */
+.ap-sidebar #logoutBtn {
+  border-color: var(--ap-primary) !important;
+  color: var(--ap-primary) !important;
+}
+.ap-sidebar #logoutBtn:hover {
+  background: var(--ap-primary) !important;
+  color: var(--ap-dark) !important;
+}
+.ap-main .btn-primary {
+  background: var(--ap-primary) !important;
+  border-color: var(--ap-primary) !important;
+  color: var(--ap-dark) !important;
+}
+.ap-main .btn-primary:hover,
+.ap-main .btn-primary:focus {
+  background: var(--primary-hover-start) !important;
+  border-color: var(--primary-hover-start) !important;
+  color: var(--ap-dark) !important;
+}
+
+/*
+ * Ensure all secondary outline buttons within the admin main area adopt the
+ * current accent colour instead of the default bootstrap grey.  Without
+ * these overrides the buttons (e.g. “Refresh”) remain teal/blue in the
+ * gold theme.  The hover state fills the button with the accent colour
+ * while keeping the text legible by switching to the dark colour.
+ */
+.ap-main .btn-outline-secondary {
+  border-color: var(--ap-primary) !important;
+  color: var(--ap-primary) !important;
+}
+.ap-main .btn-outline-secondary:hover,
+.ap-main .btn-outline-secondary:focus {
+  background: var(--ap-primary) !important;
+  border-color: var(--ap-primary) !important;
+  color: var(--ap-dark) !important;
+}

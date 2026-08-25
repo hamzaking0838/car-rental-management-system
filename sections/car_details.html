@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Car Details</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/car_details.css" />
+  <!-- Theme variables and toggle styles -->
+  <link rel="stylesheet" href="/css/theme-toggle.css" />
+</head>
+<body>
+  <!-- Car Details Section -->
+  <section id="carDetails" class="car-details-section py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="details-card shadow-sm">
+            <div class="row g-4">
+              <div class="col-12 col-md-6">
+                <div class="img-wrapper">
+                  <!-- Image will be injected via JS -->
+                  <img id="detailImage" src="/images/default-car.png" alt="Car image" class="img-fluid rounded" />
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <h2 id="detailName" class="fw-bold mb-3">Car Name</h2>
+                <ul class="list-group list-group-flush" id="detailList">
+                  <!-- Dynamic details list -->
+                </ul>
+                <div class="mt-3">
+                  <a id="bookNowBtn" href="#" class="btn btn-gradient me-2">Book Now</a>
+                  <!-- back to list or homepage -->
+                  <a href="/" class="btn btn-outline-light">Back</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="/js/car_details.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Theme toggle script to apply saved palette to this standalone page. -->
+  <script src="/js/theme-toggle.js"></script>
+</body>
+</html>

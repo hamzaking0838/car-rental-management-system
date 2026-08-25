@@ -1,0 +1,40 @@
+<section id="rent" class="rent-section py-5">
+  <div class="container">
+
+    <!-- Section Heading -->
+    <div class="text-center mb-5 rent-section-text">
+      <h2 class="fw-bold">Rent a Cars</h2>
+      <p class="text-muted">Choose from our premium fleet of cars and enjoy seamless rental experience in Lahore.</p>
+    </div>
+    <!-- Professional Search Bar -->
+    <div class="rent-search-wrapper mb-4">
+      <div class="rent-search-panel">
+        <!-- Simplified search bar: removed heading and subtitle -->
+
+        <div class="rent-search-box" style="padding-right: 12px !important; overflow: hidden !important; border-radius: 50px !important;">
+          <input
+            type="text"
+            id="carSearchInput"
+            class="form-control rent-search-input"
+            placeholder="Search e.g. Audi, Corolla, automatic, 7 seats, petrol, under 50000"
+            aria-label="Search cars"
+            autocomplete="off"
+          />
+          <button type="button" id="carSearchBtn" class="btn rent-search-btn">Search</button>
+          <button type="button" id="carSearchClearBtn" class="btn rent-clear-btn" aria-label="Clear search" style="margin-right: 5px !important; height: 32px !important; width: 32px !important; min-width: 32px !important; z-index: 5 !important;">Clear</button>
+        </div>
+
+        <div id="carSearchSuggestions" class="rent-search-suggestions" aria-live="polite"></div>
+        <div id="carSearchStatus" class="rent-search-status"></div>
+      </div>
+    </div>
+
+    <!-- Cars Grid (dynamic) -->
+    <div class="row g-4" id="rentCarsGrid">
+      <div class="col-12">
+        <div class="text-center text-secondary">Loading cars...</div>
+      </div>
+    </div>
+
+  </div>
+</section>

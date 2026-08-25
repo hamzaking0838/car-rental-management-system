@@ -1,0 +1,17 @@
+
+CREATE TABLE IF NOT EXISTS booking (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  car_id INT NOT NULL,
+  color VARCHAR(50) DEFAULT NULL,
+  driver_option VARCHAR(50) DEFAULT NULL,
+  pickup_date DATE NOT NULL,
+  pickup_time VARCHAR(50) DEFAULT NULL,
+  duration_days INT NOT NULL,
+  notes TEXT DEFAULT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'Pending',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_booking_customer FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE,
+  CONSTRAINT fk_booking_car FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+);
+

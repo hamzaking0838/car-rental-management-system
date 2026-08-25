@@ -1,0 +1,146 @@
+/* ===== HERO SECTION ===== */
+.hero-section {
+  margin-top: -20px;
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #001f3f 0%, #003566 100%);
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  transition: background-position 0.3s ease;
+}
+
+/* ===== Faint Background Car ===== */
+.bg-car {
+  background: url("/images/background.jpg") no-repeat center;
+  background-size: 100%;
+  opacity: 0.5;
+  filter: brightness(0.3) blur(1px);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ===== Red Stripe ===== */
+.red-stripe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 97px;
+  width: 30%;
+  height: 100%;
+  /* Use the primary colour and its hover variant for the stripe so that the accent can change */
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover-start));
+  z-index: 1;
+  animation: stripeGlow 4s ease-in-out infinite alternate;
+  box-shadow: -10px 0 25px var(--primary-shadow-color);
+  will-change: transform;
+}
+
+/* ===== Text Section ===== */
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  z-index: 2;
+  position: relative;
+}
+
+.hero-text {
+  font-size: 1.1rem;
+  color: #dce3f0;
+  margin-top: 15px;
+}
+
+.hero-btn {
+  border: none;
+  border-radius: 25px !important;
+  border-radius: 50px;
+  padding: 12px 35px;
+  transition: 0.3s ease;
+  font-weight: 600;
+  z-index: 2;
+  position: relative;
+  overflow: hidden;
+}
+.hero-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(184, 123, 123, 0.438), transparent 70%);
+  transform: scale(0);
+  transition: transform 0.4s ease;
+}
+.hero-btn:hover::before {
+  transform: scale(1);
+}
+.hero-btn{
+  /* Button uses the primary colour so it adapts to the active theme */
+  background-color: var(--primary-color) !important;
+}
+.hero-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--primary-shadow-color);
+}
+
+/* ===== Car Image ===== */
+.car-image {
+  position: relative;
+  z-index: 2;
+  margin-top: 70px;
+  margin-left: 100px;
+  animation: floatCar 4s ease-in-out infinite;
+  max-width: 90%;
+  height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+  transition: all 0.4s ease;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatCar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes stripeGlow {
+  0% { filter: brightness(0.9); }
+  100% { filter: brightness(1.2); }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.7) translate(-50%, -50%); }
+  to { opacity: 0.5; transform: scale(1) translate(-50%, -50%); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .hero-title { font-size: 2.5rem; }
+  .car-image { margin-left: 50px; max-width: 85%; }
+  .red-stripe { width: 35%; margin-right: 40px; }
+}
+@media (max-width: 768px) {
+  .hero-section { flex-direction: column; text-align: center; padding: 60px 15px; }
+  .red-stripe { width: 100%; height: 40%; bottom: 0; top: auto; margin-right: 0; }
+  .car-image { margin: 30px auto 0; max-width: 80%; }
+  .hero-title { font-size: 2.2rem; }
+  .hero-text { font-size: 1rem; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: 1.8rem; }
+  .hero-btn { padding: 10px 28px; font-size: 0.9rem; }
+  .car-image { max-width: 90%; margin-left: 0; }
+  .red-stripe { height: 35%; }
+}

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome for sidebar icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/admin_panel.css" />
+
+  <!-- Theme variables and toggle styles -->
+  <link rel="stylesheet" href="/css/theme-toggle.css" />
+</head>
+
+<body class="gold-theme" class="admin-panel">
+  <div class="d-flex ap-shell">
+    <!-- Sidebar -->
+    <aside class="ap-sidebar d-flex flex-column p-3">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="rounded-circle bg-primary" style="width:12px;height:12px;"></div>
+        <div class="ap-brand">Car Rental Admin</div>
+      </div>
+      <div class="text-secondary small mb-3">Manage bookings, cars & payments</div>
+
+      <nav class="ap-nav nav nav-pills flex-column gap-1" id="adminNav">
+        <a class="nav-link active" href="#" data-section="dashboard"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+        <a class="nav-link" href="#" data-section="bookings"><i class="fa-solid fa-calendar-check"></i>Bookings</a>
+        <a class="nav-link" href="#" data-section="customers"><i class="fa-solid fa-users"></i>Customers</a>
+        <a class="nav-link" href="#" data-section="cars"><i class="fa-solid fa-car"></i>Cars</a>
+        <a class="nav-link" href="#" data-section="payments"><i class="fa-solid fa-credit-card"></i>Payments</a>
+        <a class="nav-link" href="#" data-section="contacts"><i class="fa-solid fa-envelope"></i>Messages</a>
+      </nav>
+
+      <div class="mt-auto pt-3">
+        <button id="logoutBtn" class="btn btn-outline-light w-100">Logout</button>
+        <div class="text-secondary small mt-2">Session secured</div>
+      </div>
+    </aside>
+
+    <!-- Overlay used on smaller screens when the sidebar is toggled open -->
+    <div class="ap-overlay"></div>
+
+    <!-- Main -->
+    <main class="ap-main">
+      <!-- Topbar -->
+      <div class="ap-topbar px-3 px-lg-4 py-3 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <!-- Hamburger menu for mobile screens -->
+          <div id="menuToggle" class="d-lg-none">&#9776;</div>
+          <div>
+            <div class="text-secondary small">Admin Panel</div>
+            <h1 class="h4 mb-0" id="pageTitle">Dashboard</h1>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge text-bg-light border" id="sessionBadge">Checking session…</span>
+          <!-- Theme toggle button for the admin panel. Uses the same id and class as the
+               frontend navbar button so it integrates with the global theme-toggle.js. -->
+          <button id="themeToggleBtn" class="btn btn-theme-toggle ms-2">Theme</button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="px-3 px-lg-4 py-4">
+        <div id="authAlert" class="alert alert-danger d-none" role="alert"></div>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="section-dashboard" class="ap-section">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 col-xl-3">
+              <div class="ap-card ap-metric-card p-3">
+                <div class="text-secondary small">Total Bookings</div>
+                <div class="fs-3 fw-bold" id="cardTotalBookings">—</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+              <div class="ap-card ap-metric-card p-3">
+                <div class="text-secondary small">Today’s Bookings</div>
+                <div class="fs-3 fw-bold" id="cardTodayBookings">—</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+              <div class="ap-card ap-metric-card p-3">
+                <div class="text-secondary small">Available Cars</div>
+                <div class="fs-3 fw-bold" id="cardCars">—</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+              <div class="ap-card ap-metric-card p-3">
+                <div class="text-secondary small">New Messages</div>
+                <div class="fs-3 fw-bold" id="cardMessages">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ap-card p-3 mt-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="ap-section-title">Recent Bookings</div>
+              <button class="btn btn-sm btn-outline-secondary" id="refreshDashboard">Refresh</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-sm align-middle mb-0" id="recentBookingsTable">
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Car</th>
+                    <th>Pickup</th>
+                    <th>Days</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOKINGS SECTION -->
+        <section id="section-bookings" class="ap-section d-none">
+          <div class="ap-card p-3">
+            <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+              <div class="ap-section-title">All Bookings</div>
+              <div class="d-flex gap-2">
+                <input id="bookingSearch" class="form-control form-control-sm" placeholder="Search name / phone" style="max-width:260px;" />
+                <button class="btn btn-sm btn-outline-secondary" id="refreshBookings">Refresh</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered align-middle" id="bookingsTable">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Car</th>
+                    <th>Color</th>
+                    <th>Driver</th>
+                    <th>Pickup Date</th>
+                    <th>Pickup Time</th>
+                    <th>Days</th>
+                    <th>Booking Status</th>
+                    <th>Payment</th>
+                    <th>Notes</th>
+                    <th style="width:140px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CUSTOMERS SECTION -->
+        <section id="section-customers" class="ap-section d-none">
+          <div class="ap-card p-3">
+            <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+              <div class="ap-section-title">Customers</div>
+              <div class="d-flex gap-2">
+                <input id="customerSearch" class="form-control form-control-sm" placeholder="Search name / phone / email" style="max-width:300px;" />
+                <button class="btn btn-sm btn-outline-secondary" id="refreshCustomers">Refresh</button>
+              </div>
+            </div>
+            <div class="text-secondary small mb-2">CNIC images are served from <code>/uploads</code>. Click an image to open full size.</div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle ap-table" id="customersTable">
+                <thead class="ap-thead">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Father</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>CNIC</th>
+                    <th>CNIC Front</th>
+                    <th>CNIC Back</th>
+                    <th>Created</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARS SECTION -->
+        <section id="section-cars" class="ap-section d-none">
+          <div class="row g-3">
+            <div class="col-12 col-xl-8">
+              <div class="ap-card p-3">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <div class="ap-section-title">Cars</div>
+                  <button class="btn btn-sm btn-outline-secondary" id="refreshCars">Refresh</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle ap-table" id="carsTable">
+                    <thead class="ap-thead">
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Color</th>
+                        <th>Price/Day</th>
+                        <th>Available</th>
+                        <th class="text-end">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-4">
+              <div class="ap-card p-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="ap-section-title">Add / Edit Car</div>
+                  <span class="badge text-bg-secondary" id="carFormMode">Add</span>
+                </div>
+                <div class="text-secondary small mb-3">
+                  Add new cars, edit price/color, or toggle availability. Delete will fail if a car is referenced by bookings.
+                </div>
+                <form id="carCrudForm">
+                  <input type="hidden" id="carIdInput" />
+                  <div class="mb-2">
+                    <label class="form-label small">Car Name *</label>
+                    <input class="form-control" id="carNameInput" placeholder="e.g. Hyundai Tucson" required />
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label small">Color</label>
+                    <input class="form-control" id="carColorInput" placeholder="e.g. Black" />
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label small">Price Per Day *</label>
+                    <input type="number" class="form-control" id="carPriceInput" placeholder="e.g. 15000" required />
+                  </div>
+                  <!-- Additional specification fields -->
+                  <div class="mb-2">
+                    <label class="form-label small">Model / Year</label>
+                    <input class="form-control" id="carModelYearInput" placeholder="e.g. 2024" />
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label small">Brand</label>
+                    <input class="form-control" id="carBrandInput" placeholder="e.g. Toyota" />
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label small">Seats</label>
+                    <select class="form-select" id="carSeatsInput">
+                      <option value="">Select seats</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="7">7</option>
+                    </select>
+                  </div>
+                    <div class="mb-2">
+                      <label class="form-label small">AC</label>
+                      <select class="form-select" id="carAcInput">
+                        <option value="">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                    <div class="mb-2">
+                      <label class="form-label small">Fuel Type</label>
+                      <select class="form-select" id="carFuelTypeInput">
+                        <option value="">Select fuel</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Hybrid">Hybrid</option>
+                      </select>
+                    </div>
+                  <div class="mb-2">
+                    <label class="form-label small">Transmission</label>
+                    <select class="form-select" id="carTransmissionInput">
+                      <option value="">Select</option>
+                      <option value="Manual">Manual</option>
+                      <option value="Automatic">Automatic</option>
+                    </select>
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label small">Image</label>
+                    <!-- Allow the admin to upload a photo for the car.  The file will be stored
+                         on the server and its filename saved in the database.  Supported
+                         formats are common image types such as JPG and PNG. -->
+                    <input type="file" class="form-control" id="carImageInput" accept="image/*" />
+                    <small class="form-text text-muted">Optional. Upload a photo of the vehicle (PNG/JPG).</small>
+                  </div>
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="carAvailableInput" checked />
+                    <label class="form-check-label small" for="carAvailableInput">Available</label>
+                  </div>
+                  <button class="btn btn-primary w-100" type="submit" id="carSaveBtn">Save Car</button>
+                  <button class="btn btn-outline-secondary w-100 mt-2 d-none" type="button" id="carCancelEditBtn">Cancel Edit</button>
+                  <div class="small mt-2" id="carCrudHint"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAYMENTS SECTION -->
+        <section id="section-payments" class="ap-section d-none">
+          <div class="ap-card p-3">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="ap-section-title">Payments</div>
+              <button class="btn btn-sm btn-outline-secondary" id="refreshPayments">Refresh</button>
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+              <div class="text-secondary small">All Stripe payments stored in DB</div>
+              <div class="d-flex flex-wrap gap-2 align-items-center">
+                <input id="paymentSearch" class="form-control form-control-sm" placeholder="Search booking/customer" style="max-width:220px;" />
+                <select id="paymentStatus" class="form-select form-select-sm" style="max-width:160px;">
+                  <option value="">All Status</option>
+                  <option value="succeeded">Succeeded</option>
+                  <option value="pending">Pending</option>
+                  <option value="failed">Failed</option>
+                  <option value="canceled">Canceled</option>
+                  <option value="requires_payment_method">Requires payment method</option>
+                </select>
+                <input id="paymentFrom" type="date" class="form-control form-control-sm" title="From date" />
+                <input id="paymentTo" type="date" class="form-control form-control-sm" title="To date" />
+                <button class="btn btn-sm btn-outline-secondary" id="clearPaymentFilters">Clear</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered align-middle" id="paymentsTable">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Car</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Stripe Intent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="9" class="text-center text-secondary">Loading…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTACTS / MESSAGES SECTION -->
+        <section id="section-contacts" class="ap-section d-none">
+          <div class="ap-card p-3">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="ap-section-title">Contact Messages</div>
+              <button class="btn btn-sm btn-outline-secondary" id="refreshContacts">Refresh</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered align-middle" id="contactsTable">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Theme toggle script applied to the admin dashboard. This will read the
+       saved theme from localStorage and apply the gold or default palette. -->
+  <script src="/js/theme-toggle.js"></script>
+  <script src="/js/admin_dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

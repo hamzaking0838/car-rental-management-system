@@ -1,0 +1,119 @@
+/* Section Background */
+#wedding {
+  background: linear-gradient(135deg, #fff5f5, #ffffff);
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+/* Heading Styles */
+.section-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2.4rem;
+  /* Section headings use the primary accent colour */
+  color: var(--primary-color);
+}
+
+.section-subtitle {
+  color: #555;
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+
+/* Wedding Card */
+
+.wedding-card-body{
+text-align: center;
+}
+.wedding-card {
+  /* Use theme gradient variables for card backgrounds */
+  background: linear-gradient(145deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+.card-img {
+  height: 260px;
+  overflow: hidden;
+}
+
+.wedding-card .card-img img {
+  margin-left: 30px;
+  width: 290px;
+  height: 260px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.wedding-card:hover .card-img img {
+  transform: scale(1.1);
+}
+
+.wedding-card .card-body {
+  padding: 25px;
+  text-align: center;
+}
+
+
+.wedding-card h5 {
+  font-weight: 600;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.wedding-card p {
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+/* Button */
+.wedding-btn {
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 600;
+  color: #0a0a0a !important;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover-end));
+  border: none;
+  box-shadow: 0 6px 15px var(--primary-shadow-color);
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.wedding-btn:hover {
+  color: white !important;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px var(--primary-shadow-color);
+}
+
+/* Animation (one-time fade-up) */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+.fade-up.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  .wedding-card .card-img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+  }
+}

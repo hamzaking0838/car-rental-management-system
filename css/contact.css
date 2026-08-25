@@ -1,0 +1,133 @@
+/* ===== CONTACT SECTION ===== */
+.contact-section {
+  /*
+   * Use a dynamic gradient for the contact section so that it adapts to
+   * whichever theme is active.  Start with deep black for contrast and
+   * blend into the primary gradient start colour defined in
+   * theme‑toggle.css.  In the default (aqua) theme this yields a teal
+   * tone; in the gold theme it becomes a warm gold, eliminating any
+   * leftover aqua hues.
+   */
+  background: linear-gradient(135deg, #000000, var(--primary-gradient-start));
+  color: #fff;
+  padding: 80px 20px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+/* Header */
+.contact-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+.contact-header h2 span {
+  /* Highlight the keyword using the primary accent colour */
+  color: var(--primary-color);
+}
+.contact-header p {
+  /* The paragraph colour uses the lighter end of the primary gradient so
+     that it harmonises with both the aqua and gold themes.  This
+     prevents hard‑coded teal from showing when the gold theme is active. */
+  color: var(--primary-gradient-start);
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+/* Info Box */
+.contact-info {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+.contact-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px var(--primary-shadow-color);
+}
+.contact-info i {
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+
+/* Social Links */
+.social-links a {
+  color: var(--primary-color);
+  font-size: 1.3rem;
+  margin-right: 15px;
+  transition: all 0.3s ease;
+}
+.social-links a:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
+/* Form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px var(--primary-shadow-color);
+}
+.contact-form input,
+.contact-form textarea {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+  /* Placeholder text adopts the lighter gradient colour rather than a
+     fixed aqua shade, ensuring the text looks appropriate in both
+     colour schemes. */
+  color: var(--primary-gradient-start);
+}
+.contact-btn {
+  /* Apply the primary accent colour on a diagonal gradient for the submit button */
+  background: linear-gradient(45deg, var(--primary-color), #000);
+  color: #fff;
+  border: none;
+  display: flex;
+  justify-content: center;
+  width: 170px;
+  padding: 12px;
+  border-radius: 26px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+.contact-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(45deg, #000, var(--primary-color));
+  box-shadow: 0 10px 25px var(--primary-shadow-color);
+}
+
+/* Animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+.fade-up.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-header h2 {
+    font-size: 2rem;
+  }
+  .contact-info,
+  .contact-form {
+    padding: 20px;
+  }
+}

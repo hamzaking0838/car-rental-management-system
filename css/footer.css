@@ -1,0 +1,192 @@
+body {
+  min-height: 200vh; /* scroll ke liye space */
+  background: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+} /* ===== FOOTER STYLING ===== */
+footer {
+  background: linear-gradient(135deg, #101010, #1e1e1e);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  /* Top border uses the primary accent colour so it changes with the theme */
+  border-top: 3px solid var(--primary-color);
+  padding: 60px 0 30px;
+}
+.text-p{
+  color: white;
+}
+footer::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(153, 204, 0, 0.05),
+    transparent 70%
+  );
+  animation: rotateGlow 15s linear infinite;
+  z-index: 0;
+}
+@keyframes rotateGlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+footer * {
+  position: relative;
+  z-index: 1;
+}
+footer h6 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+footer p {
+  color: #dcdcdc;
+}
+.icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 5px;
+  transition: all 0.4s ease;
+}
+.icon-wrapper i {
+  color: #fff;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+.icon-wrapper:hover {
+  /* Hover background for social icons blends the accent colour with a neutral */
+  background: linear-gradient(90deg, var(--primary-color), #929292);
+  transform: translateY(-6px);
+}
+.icon-wrapper:hover i {
+  color: #000;
+  transform: scale(1.2);
+}
+footer hr {
+  border-color: rgba(255, 255, 255, 0.1);
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+@media (max-width: 768px) {
+  footer {
+    text-align: center;
+  }
+}
+
+
+
+.text-small{
+  color: white !important;
+}
+.footer-section {
+  background: linear-gradient(135deg, #0a0a0a 0%, #111 50%, #191919 100%);
+  background-size: 200% 200%;
+  animation: bgShift 18s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.footer-top {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  padding: 20px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-logo {
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(255,255,255,0.1));
+}
+
+.footer-link {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--primary-color);
+  transform: translateX(5px);
+}
+
+.footer-divider {
+  width: 80%;
+  margin: 0 auto;
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, var(--primary-color), transparent);
+  opacity: 0.5;
+}
+
+.footer-bottom {
+  background: rgba(207, 41, 41, 0.03);
+}
+
+/* Social icons */
+.icon-wrapper {
+  text-decoration: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  margin: 0 5px;
+  transition: all 0.4s ease;
+}
+
+.icon-wrapper i {
+  color: #fff;
+  font-size: 18px;
+  transition: transform 0.4s ease;
+}
+
+.icon-wrapper:hover {
+  background: linear-gradient(135deg, var(--primary-color), #8b8d8d7e);
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 0 15px var(--primary-shadow-color);
+}
+
+.icon-wrapper:hover i {
+  transform: scale(1.2);
+  color: #000;
+}
+
+/* Animations */
+.fade-up, .fade-left, .fade-right {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+.fade-left { transform: translateX(-20px); }
+.fade-right { transform: translateX(20px); }
+
+.in-view {
+  opacity: 1;
+  transform: translate(0,0);
+}
+
+

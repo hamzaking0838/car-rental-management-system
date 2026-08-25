@@ -1,0 +1,140 @@
+:root {
+
+  --primary-color: #39e0e6;
+  --primary-hover-start: rgb(56, 240, 240);
+  --primary-hover-end: rgb(172, 170, 170);
+  --primary-shadow-color: rgba(57, 224, 230, 1);
+  --primary-gradient-start: #92f8fc;
+  --primary-gradient-end: #353636;
+
+  
+  --ap-primary-rgb: 57, 224, 230;
+}
+
+
+:root {
+  --ap-primary: var(--primary-color);
+  --ap-gradient-start: var(--primary-gradient-start);
+  --ap-gradient-end: var(--primary-gradient-end);
+
+  --auth-cyan: var(--primary-color);
+  --auth-card-start: var(--primary-gradient-start);
+  --auth-card-end: var(--primary-gradient-end);
+
+  /* User dashboard palette variables.  The dashboard defines its own
+     custom CSS variables (e.g. --ud-primary) for accents and gradients.
+     Assign them here so they mirror the global primary colour values.
+     When the theme toggles to gold these values will update
+     automatically. */
+  --ud-primary: var(--primary-color);
+  --ud-gradient-start: var(--primary-gradient-start);
+  --ud-gradient-end: var(--primary-gradient-end);
+}
+
+/* Secondary theme (gold). When the body has the gold‑theme class, these
+   variables override the defaults. Gold is the main accent colour for
+   this scheme, while black and white remain constant for contrast. */
+body.gold-theme {
+  --primary-color: #FFD700;
+  --primary-hover-start: #ffec8b;
+  --primary-hover-end: #c0b060;
+  --primary-shadow-color: rgba(218, 165, 32, 1);
+  --primary-gradient-start: #fde79b;
+  --primary-gradient-end: #353636;
+
+  /* When using the gold theme, override the admin primary RGB values so
+     semi‑transparent backgrounds on the admin dashboard adapt to the new
+     palette. This corresponds to a gold hue (approximately #daa520). */
+  --ap-primary-rgb: 218, 165, 32;
+
+  /*
+   * Ensure admin and authentication colour variables update correctly.  The
+   * original implementation defined --ap-primary and related variables at
+   * the :root level, referencing --primary-color.  Because CSS custom
+   * properties resolve var() references in the scope where they’re defined,
+   * the root-level definitions will always resolve against the root-level
+   * --primary-color (the aqua theme).  To allow the gold theme to fully
+   * override the admin accent, we redefine these variables here to
+   * explicitly reference the overridden --primary-color and gradient
+   * variables.  Without these overrides the admin dashboard, logout
+   * button, hamburger icon and status dot retain teal accents when the
+   * gold theme is enabled.
+   */
+  --ap-primary: var(--primary-color);
+  --ap-gradient-start: var(--primary-gradient-start);
+  --ap-gradient-end: var(--primary-gradient-end);
+
+  /* Synchronise authentication colour variables with the active palette */
+  --auth-cyan: var(--primary-color);
+  --auth-card-start: var(--primary-gradient-start);
+  --auth-card-end: var(--primary-gradient-end);
+
+  /* User dashboard palette variables also need to update on theme switch */
+  --ud-primary: var(--primary-color);
+  --ud-gradient-start: var(--primary-gradient-start);
+  --ud-gradient-end: var(--primary-gradient-end);
+
+  /*
+   * Override the dark colour variables used in both the authentication
+   * pages and the admin panel.  Without these overrides the login,
+   * registration and admin pages retain a dark blue background when
+   * switching to the gold theme.  Setting them to true black ensures
+   * the interface adheres to the gold / black / white palette and
+   * completely removes lingering aqua‑tinted darks.
+   */
+  --auth-dark: #000000;
+  --auth-dark-2: #0a0a0a;
+  --ap-dark: #000000;
+}
+
+/* Style for the theme toggle button. This button is added to the navbar
+   and uses the primary colour variables so it automatically adapts to
+   whichever palette is currently active. */
+.btn-theme-toggle {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-theme-toggle:hover {
+  background: var(--primary-color);
+  color: #ffffff;
+}
+
+/*
+ * In gold theme, the hero section should lose its dark blue gradient and adopt
+ * a neutral dark background that complements the gold palette.  Without
+ * this override the hero still displays a teal gradient from hero.css.
+ */
+body.gold-theme .hero-section {
+  background: linear-gradient(120deg, #000000 0%, #191919 100%);
+}
+
+/*
+ * When the gold theme is active, override the background of the admin
+ * login branding panel.  The default authentication CSS hard‑codes a
+ * blue/teal gradient for the admin login panel which clashes with the
+ * gold palette.  This rule ties the panel’s gradient to the primary
+ * gradient variables so it seamlessly transitions between aqua and gold.
+ */
+body.gold-theme .admin-brand-panel {
+  background: linear-gradient(145deg, var(--primary-gradient-start), var(--primary-gradient-end));
+}
+
+/*
+ * The brand mark icons in the authentication panels are dark blue by
+ * default.  For the gold theme they should be black so they don't
+ * introduce teal accents.  Override both the generic brand mark and the
+ * admin variant.  The background on the admin mark still uses
+ * var(--auth-cyan) which switches to gold via our variable override.
+ */
+body.gold-theme .auth-brand-mark {
+  color: #000000;
+}
+body.gold-theme .admin-brand-panel .auth-brand-mark {
+  color: #000000;
+}

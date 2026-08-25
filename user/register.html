@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/auth.css" />
+
+  <!-- Theme variables and toggle styles -->
+  <link rel="stylesheet" href="/css/theme-toggle.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-card auth-card-register" aria-label="User registration">
+      <aside class="auth-brand-panel">
+        <div class="auth-brand-mark">CR</div>
+        <div class="auth-brand-content">
+          <div class="auth-mini-label">Customer Register</div>
+          <h1 class="auth-brand-title">Create Account</h1>
+          <p class="auth-brand-text">Register once and book cars faster.</p>
+        </div>
+      </aside>
+
+      <div class="auth-form-panel">
+        <div class="auth-form-panel-inner">
+          <div class="auth-form-head">
+            <a href="/index.html" class="auth-top-link">Back to Home</a>
+            <h2 class="auth-form-title">Register</h2>
+            <p class="auth-form-subtitle">Fill in your details to continue.</p>
+          </div>
+
+          <div id="userRegisterAlert" class="alert alert-danger auth-alert d-none" role="alert"></div>
+
+          <form id="userRegisterForm">
+            <div class="auth-form-grid">
+              <div class="auth-field">
+                <label for="registerName">Name</label>
+                <input type="text" class="form-control" id="registerName" placeholder="Full name" autocomplete="name" required />
+              </div>
+              <div class="auth-field">
+                <label for="registerFatherName">Father's Name</label>
+                <input type="text" class="form-control" id="registerFatherName" placeholder="Father's name" required />
+              </div>
+              <div class="auth-field">
+                <label for="registerPhone">Phone Number</label>
+                <input type="tel" class="form-control" id="registerPhone" placeholder="03xx xxxxxxx" autocomplete="tel" required />
+              </div>
+              <div class="auth-field">
+                <label for="registerCnic">CNIC / Passport</label>
+                <input type="text" class="form-control" id="registerCnic" placeholder="CNIC or Passport" required />
+              </div>
+              <div class="auth-field full-width">
+                <label for="registerAddress">Address</label>
+                <textarea class="form-control" id="registerAddress" rows="2" placeholder="Complete address" autocomplete="street-address" required></textarea>
+              </div>
+              <div class="auth-field full-width">
+                <label for="registerEmail">Email address</label>
+                <input type="email" class="form-control" id="registerEmail" placeholder="Enter your email" autocomplete="email" required />
+              </div>
+              <div class="auth-field">
+                <label for="registerPassword">Password</label>
+                <input type="password" class="form-control" id="registerPassword" placeholder="Create password" autocomplete="new-password" required />
+              </div>
+              <div class="auth-field">
+                <label for="registerConfirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Confirm password" autocomplete="new-password" required />
+              </div>
+            </div>
+            <button type="submit" class="btn auth-submit-btn">Register</button>
+          </form>
+
+          <p class="auth-switch-text">Already have an account? <a href="/user/login.html">Login</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/js/user_register.js"></script>
+
+  <!-- Theme toggling script -->
+  <script src="/js/theme-toggle.js"></script>
+</body>
+</html>

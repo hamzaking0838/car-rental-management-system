@@ -1,0 +1,92 @@
+/*
+ * car_details.css
+ *
+ * Styles specific to the car details page.  The layout uses
+ * Bootstrap’s grid system to divide the page into image and
+ * information panels.  A dark gradient background on the card
+ * complements the existing rent section styling, while a light page
+ * background maintains readability.
+ */
+
+.car-details-section {
+  background: #f8f9fa;
+}
+
+.details-card {
+  border-radius: 20px;
+  overflow: hidden;
+  /* Use the theme gradient variables so the card automatically reflects the active palette
+     (default aqua or gold). These variables are defined in theme-toggle.css and will
+     change when the body has the .gold-theme class. */
+  background: linear-gradient(145deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  color: #fff;
+  padding: 30px;
+}
+
+.details-card h2 {
+  color: #ffffff;
+}
+
+.details-card .list-group-item {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.details-card .list-group-item span {
+  float: right;
+  font-weight: 600;
+}
+
+.btn-gradient {
+  /* Button gradient references the primary colour and hover end variables so it
+     adapts to the selected palette. */
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover-end));
+  color: #fff;
+  border-radius: 50px;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.4s ease;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-3px);
+  /* Use the theme shadow colour for the hover effect */
+  box-shadow: 0 10px 25px var(--primary-shadow-color);
+}
+
+.btn-outline-light {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 50px;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.4s ease;
+}
+
+.btn-outline-light:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+/*
+ * Responsive layout tweaks for the car details page
+ *
+ * On smaller screens the action buttons beneath the car specs would
+ * previously stack on top of one another or wrap unpredictably.  To
+ * ensure a tidy appearance we turn the button container into a flex
+ * row that wraps when necessary and distributes space evenly among
+ * buttons.  Each anchor will grow to fill available width, placing
+ * both “Book Now” and “Back” on a single line on mobile devices.
+ */
+@media (max-width: 576px) {
+  .details-card .mt-3 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .details-card .mt-3 a {
+    flex: 1 1 50%;
+    text-align: center;
+  }
+}

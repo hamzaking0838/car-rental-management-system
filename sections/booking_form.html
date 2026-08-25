@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Car Booking Form</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/booking_form.css" />
+
+    <!-- Theme variables and toggle styles. Loading this after the page-specific CSS
+         ensures our CSS custom properties are available everywhere. -->
+    <link rel="stylesheet" href="/css/theme-toggle.css" />
+  </head>
+  <body>
+    <section id="booking" class="booking-section">
+      <div class="bg-animated"></div>
+
+      <div class="booking-wrap">
+        <div class="booking-card">
+          <div class="booking-header">
+            <h1>Book Your Car</h1>
+            <p class="muted">Fast. Secure. Confirmed by SMS.</p>
+          </div>
+
+          <!-- progress -->
+          <div class="progress-bar">
+            <div class="step-indicator">
+              <div class="step step-active" data-step="1">
+                <span>1</span><small>Personal</small>
+              </div>
+              <div class="step" data-step="2">
+                <span>2</span><small>Car</small>
+              </div>
+              <div class="step" data-step="3">
+                <span>3</span><small>Confirm</small>
+              </div>
+            </div>
+            <div class="progress-line">
+              <div class="progress-fill progress-fill-step-1"></div>
+            </div>
+          </div>
+
+          <!-- form wizard -->
+          <form
+            id="wizardForm"
+            class="wizard-form"
+            enctype="multipart/form-data"
+            novalidate
+          >
+            <!-- STEP 1 -->
+            <div class="form-step form-step-active" data-step="1">
+              <div class="row gx-3">
+                <div class="col-12 col-md-6">
+                  <label>Full name *</label>
+                  <input
+                    name="name"
+                    type="text"
+                    class="form-control"
+                    placeholder="e.g. Ali Khan"
+                    required
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <label>Father's name *</label>
+                  <input
+                    name="father_name"
+                    type="text"
+                    class="form-control"
+                    placeholder="Father's name"
+                    required
+                  />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label>Email *</label>
+                  <input
+                    name="email"
+                    type="email"
+                    class="form-control"
+                    placeholder="email@domain.com"
+                    required
+                  />
+                </div>
+                <div class="col-12 col-md-6">
+                  <label>Phone *</label>
+                  <input
+                    name="phone"
+                    type="tel"
+                    class="form-control"
+                    placeholder="+92XXXXXXXXXX"
+                    required
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label>Address *</label>
+                  <textarea
+                    name="address"
+                    class="form-control"
+                    rows="2"
+                    placeholder="Pickup address / city"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label>CNIC / Passport</label>
+                  <input
+                    name="cnic"
+                    id="cnic_pass"
+                    type="text"
+                    class="form-control"
+                    placeholder="CNIC or Passport"
+                  />
+                </div>
+
+                <div class="col-12 col-md-6 d-flex align-items-center">
+                  <div class="form-check ms-0">
+                    <input
+                      class="form-check-input"
+                      id="outOfCountry"
+                      type="checkbox"
+                    />
+                    <label class="form-check-label" for="outOfCountry"
+                      >Customer from outside country (Passport)</label
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="cnic_front">CNIC Front *</label>
+                  <input
+                    name="cnic_front"
+                    id="cnic_front"
+                    type="file"
+                    accept="image/*"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="cnic_back">CNIC Back *</label>
+                  <input
+                    name="cnic_back"
+                    id="cnic_back"
+                    type="file"
+                    accept="image/*"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="col-12 file-previews" id="filePreviews"></div>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="form-step" data-step="2">
+              <div class="row gx-3">
+                <div class="col-12 col-md-7">
+                  <label for="carSelect">Select Car *</label>
+                  <select
+                    name="car_id"
+                    id="carSelect"
+                    class="form-select"
+                    required
+                  >
+                    <option value="" selected disabled>Choose a car</option>
+                  </select>
+
+                  <label class="mt-3" for="car_color">Car Color *</label>
+                  <select
+                    id="car_color"
+                    name="color"
+                    class="form-select"
+                    required
+                  >
+                    <option value="" selected disabled>Choose color</option>
+                    <option value="Black">Black</option>
+                    <option value="White">White</option>
+                  </select>
+
+                  <label class="mt-3" for="driver_option"
+                    >Driver Preference *</label
+                  >
+                  <select
+                    id="driver_option"
+                    name="driver_option"
+                    class="form-select"
+                    required
+                  >
+                    <option value="" selected disabled>Choose option</option>
+                    <option value="With Driver">With Driver</option>
+                    <option value="Without Driver">Without Driver</option>
+                  </select>
+
+                  <label class="mt-3" for="duration_days"
+                    >Rental Duration (days) *</label
+                  >
+                  <input
+                    id="duration_days"
+                    name="duration_days"
+                    type="number"
+                    min="1"
+                    class="form-control"
+                    placeholder="Number of days"
+                    required
+                  />
+
+                  <label class="mt-3" for="pickup_date">Pickup Date *</label>
+                  <input
+                    id="pickup_date"
+                    name="pickup_date"
+                    type="date"
+                    class="form-control"
+                    required
+                  />
+
+                  <label class="mt-3" for="pickup_time">Pickup Time *</label>
+                  <input
+                    id="pickup_time"
+                    name="pickup_time"
+                    type="time"
+                    class="form-control"
+                    required
+                  />
+
+                  <label class="mt-3" for="notes">Additional Notes</label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Any special requests"
+                  ></textarea>
+                </div>
+
+                <div class="col-12 col-md-5 preview-panel">
+                  <div class="car-preview-card">
+                    <div class="car-image-wrap">
+                      <img
+                        id="carPreviewImg"
+                        src="/images/default-car.png"
+                        alt="Car preview"
+                      />
+                    </div>
+                    <div class="car-info">
+                      <h4 id="carPreviewTitle">Select a car</h4>
+                      <p id="carPreviewSub">
+                        Image and quick details will appear here.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="form-step" data-step="3">
+              <div class="review-box">
+                <!-- Payment Section -->
+                <div class="mt-4">
+                  <h5 class="mb-3">Payment Method</h5>
+
+                  <label class="form-label">Pay with Card (Stripe)</label>
+
+                  <div id="card-element" class="form-control p-3">
+                    <!-- Stripe Card Element yahan load hoga -->
+                  </div>
+
+                  <div id="card-errors" class="text-danger mt-2"></div>
+                </div>
+
+                <h3>Review & Confirm</h3>
+                <div class="review-grid">
+                  <div>
+                    <strong>Name</strong>
+                    <div id="rev_name"></div>
+                  </div>
+                  <div>
+                    <strong>Phone</strong>
+                    <div id="rev_phone"></div>
+                  </div>
+                  <div>
+                    <strong>Car</strong>
+                    <div id="rev_car"></div>
+                  </div>
+                  <!-- Display selected colour -->
+                  <div>
+                    <strong>Color</strong>
+                    <div id="rev_color"></div>
+                  </div>
+                  <!-- Display driver preference -->
+                  <div>
+                    <strong>Driver</strong>
+                    <div id="rev_driver"></div>
+                  </div>
+                  <div>
+                    <strong>Duration</strong>
+                    <div id="rev_duration"></div>
+                  </div>
+                  <div>
+                    <strong>Pickup</strong>
+                    <div id="rev_pickup"></div>
+                  </div>
+                  <div>
+                    <strong>Address</strong>
+                    <div id="rev_address"></div>
+                  </div>
+                  <!-- Display the computed total price so the customer knows how much they will pay -->
+                  <div>
+                    <strong>Total Price</strong>
+                    <div id="rev_total"></div>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <small class="muted"
+                    >By clicking Submit you agree to our terms. A confirmation
+                    SMS will be sent to your phone.</small
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- navigation -->
+            <div class="wizard-nav">
+              <button type="button" id="prevBtn" class="btn btn-outline">
+                Previous
+              </button>
+              <button type="button" id="nextBtn" class="btn btn-primary">
+                Next
+              </button>
+              <button
+                type="submit"
+                id="submitBtn"
+                class="btn btn-submit d-none"
+              >
+                Submit Booking
+              </button>
+            </div>
+
+            <div id="formMsg" class="form-msg" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Load Stripe.js to enable Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/js/booking_form.js"></script>
+    <!-- Theme toggle script. Reads and applies the current palette; no toggle
+         button exists on this page but loading this ensures the correct colours
+         are set. -->
+    <script src="/js/theme-toggle.js"></script>
+  </body>
+</html>
