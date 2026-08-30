@@ -1,20 +1,6 @@
 const db = require("../config/db");
 
 
-function ensurePriceColumn() {
-  const alterSql =
-    "ALTER TABLE cars ADD COLUMN IF NOT EXISTS price_per_day INT DEFAULT 0";
-  db.query(alterSql, (err) => {
-   
-    if (err) {
-      console.warn("Could not add price_per_day column:", err.message);
-    }
-  });
-}
-
-
-ensurePriceColumn();
-
 
 exports.getCarPrice = (req, res) => {
   const name = req.params.name;

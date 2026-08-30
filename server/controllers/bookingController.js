@@ -4,18 +4,7 @@ const path = require("path");
 const { notifyBookingConfirmed, notifyBookingReceived } = require("../utils/notifier");
 
 
-try {
-  db.query(
-    "ALTER TABLE booking ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'Pending'",
-    (err) => {
-      if (err) {
-        console.warn("Could not ensure booking.status column:", err.message);
-      }
-    }
-  );
-} catch (e) {
 
-}
 
 exports.createBooking = (req, res) => {
 
