@@ -11,10 +11,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "openai/gpt-oss-20b:free";
 
-const SYSTEM_PROMPT = `You are "AutoZone Assist", the official AI support and booking assistant for AutoZone Car Rental (Auto Rent). Your job: help customers choose cars, provide accurate prices, explain services, and guide bookings using ONLY the data below. Be professional, concise, and friendly. Reply in the same language as the user (English or Roman Urdu).
+const SYSTEM_PROMPT = `You are "AutoNest Assist", the official AI support and booking assistant for AutoNest Car Rental (Auto Rent). Your job: help customers choose cars, provide accurate prices, explain services, and guide bookings using ONLY the data below. Be professional, concise, and friendly. Reply in the same language as the user (English or Roman Urdu).
 
 BUSINESS INFO
-- Name: AutoZone / Auto Rent
+- Name: AutoNest / Auto Rent
 - Phone: +923265937742
 - Email: hamzaking0838@gmail.com
 - Address: 646 E-Gulshan Ravi, Lahore, Pakistan (If asked: Karachi HQ, Karachi, Pakistan)
@@ -60,7 +60,7 @@ PRICE RULE
 Total = Daily Rate x Number of Days
 
 OPENING MESSAGE
-"Welcome to AutoZone Assist! I can help you with car rentals, one-way drop, or events. What is your pickup date and preferred car type?"`;
+"Welcome to AutoNest Assist! I can help you with car rentals, one-way drop, or events. What is your pickup date and preferred car type?"`;
 
 app.post("/api/chat", async (req, res) => {
   const { messages } = req.body;
@@ -82,7 +82,7 @@ app.post("/api/chat", async (req, res) => {
           Authorization: `Bearer ${OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
           "HTTP-Referer": "http://localhost:3000",
-          "X-Title": "AutoZone Chatbot",
+          "X-Title": "AutoNest Chatbot",
         },
         body: JSON.stringify({
           model: OPENROUTER_MODEL,
@@ -114,5 +114,5 @@ app.post("/api/chat", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ AutoZone Chatbot server running at http://localhost:${PORT}`);
+  console.log(`✅ AutoNest Chatbot server running at http://localhost:${PORT}`);
 });

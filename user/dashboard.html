@@ -234,7 +234,6 @@
       /* Allow horizontal scrolling on small screens so the entire table remains accessible */
       overflow-x: auto;
       overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
     }
     /* Ensure the bookings table retains its full width when scrolled horizontally */
     .ud-table-wrap table {
@@ -267,6 +266,9 @@
       word-break: break-word;
     }
 
+    .booking-search-input{
+         max-width: 280px;
+    }
   </style>
 
 </head>
@@ -339,7 +341,7 @@
               <div class="text-secondary small">View all your submitted bookings and their current status.</div>
             </div>
             <div class="d-flex gap-2 align-items-center">
-              <input id="bookingSearchUser" class="form-control" style="max-width:280px;" placeholder="Search by car name..." />
+              <input id="bookingSearchUser" class="form-control" class="booking-search-input" placeholder="Search by car name..." />
               <button id="refreshUserBookings" class="btn btn-outline-secondary">Refresh</button>
             </div>
           </div>

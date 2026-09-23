@@ -1,8 +1,8 @@
 // patched copy: apply modifications here
 try {
-  require("dotenv").config();
+  require("dotenv").config({ path: require('path').join(__dirname, '.env') });
 } catch (e) {
-  
+  console.warn("Failed to load .env:", e.message);
 }
 const express = require("express");
 const cors = require("cors");
@@ -16,15 +16,12 @@ const carRoutes = require("./routes/carRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
-const settingsRoutes = require("./routes/settingsRoutes");
 
 // ===== Chatbot dependencies and helpers =====
 const fs = require('fs');
 const db = require('./config/db'); // Import DB to sync chatbot with real-time inventory
 
-// Load OpenRouter credentials from the chatbot's .env file if available. This
-// function is called before processing chat requests so that API keys can be
-// stored in one place (./autozone-chatbot/.env) instead of duplicating them.
+
 function loadChatbotEnv() {
   const chatbotEnvPath = path.join(__dirname, '../autoNest-chatbot/.env');
   try {
@@ -36,9 +33,8 @@ function loadChatbotEnv() {
   }
 }
 
-// System prompt replicated from autozone-chatbot/server/server.js. This
-// instructs the AI on how to respond based on business rules and pricing.
-const CHATBOT_SYSTEM_PROMPT = `You are "AutoZone Assist", the official AI booking assistant for AutoZone Car Rental.
+// System prompt replicated from autonest-chatbot/server/server.js. This
+const CHATBOT_SYSTEM_PROMPT = `You are "AutoNest Assist", the official AI booking assistant for AutoNest Car Rental.
 
 CRITICAL INSTRUCTIONS FOR ALL RESPONSES:
 1. EXTREME BREVITY: Keep answers incredibly short, simple, and direct. Use only 1 or 2 short sentences.
@@ -51,7 +47,7 @@ COMMUNICATION STYLE:
 - Only provide the exact information requested. Do not volunteer extra steps unless asked.
 
 BUSINESS INFORMATION:
-- Name: AutoZone / Auto Rent
+- Name: AutoNest / Auto Rent
 - Phone: +923265937742
 - Email: hamzaking0838@gmail.com
 - Address: 646 E-Gulshan Ravi, Lahore, Pakistan
@@ -67,7 +63,7 @@ ONE-WAY DROP (Lahore -> Other Cities) Economy / Premium
 Islamabad: 28k / 32k, Multan: 27k / 30k, Faisalabad: 18k / 20k, Sialkot: 13k / 16k, Gujranwala: 11k / 14k, Peshawar: 39k / 43k.
 
 OPENING MESSAGE:
-"Welcome to AutoZone Assist! How can I help you today?"`;
+"Welcome to AutoNest Assist! How can I help you today?"`;
 
 const app = express();
 
@@ -98,14 +94,34 @@ app.use("/api/admin", adminRoutes);
 // User authentication routes
 app.use("/api/user", userRoutes);
 
-// Settings routes
-app.use("/api", settingsRoutes);
+// ===== Email Diagnostic Route =====
+const { testEmailConnection, sendEmail: sendTestEmail } = require('./utils/notifier');
+app.get("/api/test-email", async (req, res) => {
+  try {
+    const result = await testEmailConnection();
+    const sendTo = req.query.send;
+    if (sendTo && result.canEmail && result.connectionTest === 'SUCCESS - SMTP server responded') {
+      try {
+        const emailResult = await sendTestEmail(
+          sendTo,
+          'AutoNest Test Email',
+          'This is a test email from AutoNest to verify email configuration is working.',
+          '<h2 style="color:#0dcaf0;">✅ AutoNest Email Test</h2><p>If you received this email, your email configuration is working correctly!</p>'
+        );
+        result.testEmailSent = emailResult;
+      } catch (sendErr) {
+        result.testEmailSent = { ok: false, error: sendErr.message };
+      }
+    }
+    return res.json(result);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 
 // ===== Chatbot route =====
-// Handles POST requests from the front-end widget. It loads environment
-// variables for OpenRouter if necessary and forwards the conversation
-// history to OpenRouter's API. Any errors will return a JSON error
-// response instead of crashing the server.
+
 app.post("/api/chat", async (req, res) => {
   loadChatbotEnv();
   const { messages } = req.body || {};
@@ -167,7 +183,7 @@ app.post("/api/chat", async (req, res) => {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "http://localhost:3000",
-        "X-Title": "AutoZone Chatbot",
+        "X-Title": "AutoNest Chatbot",
       },
       body: JSON.stringify({
         model: model,
@@ -190,6 +206,7 @@ app.post("/api/chat", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // Simple health check
 app.get("/", (req, res) => {

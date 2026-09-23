@@ -5,7 +5,7 @@
   const WELCOME_MESSAGES = [
     {
       role: "assistant",
-      text: "Welcome to AutoZone Assist!  I'm here to help you rent a car, plan a trip, or book for a special event.",
+      text: "Welcome to AutoNest Assist!  I'm here to help you rent a car, plan a trip, or book for a special event.",
     },
     {
       role: "assistant",
@@ -39,7 +39,7 @@
     const widget = document.createElement("div");
     widget.id = "az-widget";
     widget.setAttribute("role", "dialog");
-    widget.setAttribute("aria-label", "AutoZone chat assistant");
+    widget.setAttribute("aria-label", "AutoNest chat assistant");
     widget.innerHTML = `
       <div id="az-header">
         <div class="bot-icon">🤖</div>

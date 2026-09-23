@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL || "openai/gpt-oss-20b:free";
 
-const SYSTEM_PROMPT = `You are "AutoZone Assist", the official AI booking assistant for AutoZone Car Rental.
+const SYSTEM_PROMPT = `You are "AutoNest Assist", the official AI booking assistant for AutoNest Car Rental.
 
 CRITICAL INSTRUCTIONS FOR ALL RESPONSES:
 1. EXTREME BREVITY: Keep answers incredibly short, simple, and direct. Use only 1 or 2 short sentences.
@@ -24,7 +24,7 @@ COMMUNICATION STYLE:
 - Only provide the exact information requested. Do not volunteer extra steps unless asked.
 
 BUSINESS INFORMATION:
-- Name: AutoZone / Auto Rent
+- Name: AutoNest / Auto Rent
 - Phone: +923265937742
 - Email: hamzaking0838@gmail.com
 - Address: 646 E-Gulshan Ravi, Lahore, Pakistan
@@ -48,7 +48,7 @@ ONE-WAY DROP (Lahore -> Other Cities) Economy / Premium
 Islamabad: 28k / 32k, Multan: 27k / 30k, Faisalabad: 18k / 20k, Sialkot: 13k / 16k, Gujranwala: 11k / 14k, Peshawar: 39k / 43k.
 
 OPENING MESSAGE:
-"Welcome to AutoZone Assist! How can I help you today?"`;
+"Welcome to AutoNest Assist! How can I help you today?"`;
 
 app.post("/api/chat", async (req, res) => {
   const { messages } = req.body;
@@ -70,7 +70,7 @@ app.post("/api/chat", async (req, res) => {
           Authorization: `Bearer ${OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
           "HTTP-Referer": "http://localhost:3000",
-          "X-Title": "AutoZone Chatbot",
+          "X-Title": "AutoNest Chatbot",
         },
         body: JSON.stringify({
           model: OPENROUTER_MODEL,
@@ -102,5 +102,5 @@ app.post("/api/chat", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ AutoZone Chatbot server running at http://localhost:${PORT}`);
+  console.log(`✅ AutoNest Chatbot server running at http://localhost:${PORT}`);
 });

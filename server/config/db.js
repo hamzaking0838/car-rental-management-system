@@ -20,15 +20,12 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  port: Number(process.env.MYSQLPORT),
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-
-  ssl: {
-    rejectUnauthorized: false
-  }
+  host: process.env.MYSQLHOST || "localhost",
+  port: process.env.MYSQLPORT ? Number(process.env.MYSQLPORT) : 3306,
+  user: process.env.MYSQLUSER || "root",
+  password: process.env.MYSQLPASSWORD || "",
+  database: process.env.MYSQLDATABASE || "car_rental_system",
+  ssl: process.env.MYSQLHOST ? { rejectUnauthorized: false } : undefined
 });
 
 db.connect((err) => {

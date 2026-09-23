@@ -12,6 +12,27 @@
 
   <!-- Theme variables and toggle styles -->
   <link rel="stylesheet" href="/css/theme-toggle.css" />
+  <style>
+  .booking-search-input{
+    max-width:260px;
+  }
+  .customer-search-input{
+      max-width:300px;
+  }
+  .ap-brand-dot{
+    width:12px;
+    height:12px;
+  }
+  .ap-action-col{
+    width:140px;
+  }
+  .payment-search-input{
+    max-width:220px;
+  }
+  .payment-status-select{
+    max-width:160px;
+  }
+  </style>
 </head>
 
 <body class="admin-panel">
@@ -19,7 +40,7 @@
     <!-- Sidebar -->
     <aside class="ap-sidebar d-flex flex-column p-3">
       <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="rounded-circle bg-primary" style="width:12px;height:12px;"></div>
+        <div class="rounded-circle bg-primary ap-brand-dot"></div>
         <div class="ap-brand">Car Rental Admin</div>
       </div>
       <div class="text-secondary small mb-3">Manage bookings, cars & payments</div>
@@ -33,7 +54,6 @@
         <a class="nav-link" href="#" data-section="cars"><i class="fa-solid fa-car"></i>Cars</a>
         <a class="nav-link" href="#" data-section="payments"><i class="fa-solid fa-credit-card"></i>Payments</a>
         <a class="nav-link" href="#" data-section="contacts"><i class="fa-solid fa-envelope"></i>Messages</a>
-        <a class="nav-link" href="#" data-section="settings"><i class="fa-solid fa-cogs"></i>Settings</a>
       </nav>
 
       <div class="mt-auto pt-3">
@@ -152,7 +172,7 @@
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
               <div class="ap-section-title">All Bookings</div>
               <div class="d-flex gap-2">
-                <input id="bookingSearch" class="form-control form-control-sm" placeholder="Search name / phone" style="max-width:260px;" />
+                <input id="bookingSearch" class="form-control form-control-sm booking-search-input" placeholder="Search name / phone" />
                 <button class="btn btn-sm btn-outline-secondary" id="refreshBookings">Refresh</button>
               </div>
             </div>
@@ -173,7 +193,7 @@
                     <th>Booking Status</th>
                     <th>Payment</th>
                     <th>Notes</th>
-                    <th style="width:140px;">Action</th>
+                    <th class="ap-action-col">Action</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -188,7 +208,7 @@
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
               <div class="ap-section-title">Customers</div>
               <div class="d-flex gap-2">
-                <input id="customerSearch" class="form-control form-control-sm" placeholder="Search name / phone / email" style="max-width:300px;" />
+                <input id="customerSearch" class="form-control form-control-sm customer-search-input" placeholder="Search name / phone / email" />
                 <button class="btn btn-sm btn-outline-secondary" id="refreshCustomers">Refresh</button>
               </div>
             </div>
@@ -274,7 +294,7 @@
                   </div>
                   <div class="mb-2">
                     <label class="form-label small">Seats</label>
-                    <select class="form-select" id="carSeatsInput">
+                    <select class="form-select" id="carSeatsInput" aria-label="Seats">
                       <option value="">Select seats</option>
                       <option value="4">4</option>
                       <option value="5">5</option>
@@ -283,7 +303,7 @@
                   </div>
                     <div class="mb-2">
                       <label class="form-label small">AC</label>
-                      <select class="form-select" id="carAcInput">
+                      <select class="form-select" id="carAcInput" aria-label="AC">
                         <option value="">Select</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -291,7 +311,7 @@
                     </div>
                     <div class="mb-2">
                       <label class="form-label small">Fuel Type</label>
-                      <select class="form-select" id="carFuelTypeInput">
+                      <select class="form-select" id="carFuelTypeInput" aria-label="Fuel Type">
                         <option value="">Select fuel</option>
                         <option value="Petrol">Petrol</option>
                         <option value="Diesel">Diesel</option>
@@ -300,17 +320,15 @@
                     </div>
                   <div class="mb-2">
                     <label class="form-label small">Transmission</label>
-                    <select class="form-select" id="carTransmissionInput">
+                    <select class="form-select" id="carTransmissionInput" aria-label="Transmission">
                       <option value="">Select</option>
                       <option value="Manual">Manual</option>
                       <option value="Automatic">Automatic</option>
                     </select>
                   </div>
                   <div class="mb-2">
-                    <label class="form-label small">Image</label>
-                    <!-- Allow the admin to upload a photo for the car.  The file will be stored
-                         on the server and its filename saved in the database.  Supported
-                         formats are common image types such as JPG and PNG. -->
+                    <label for="carImageInput" class="form-label small">Image</label>
+                 
                     <input type="file" class="form-control" id="carImageInput" accept="image/*" />
                     <small class="form-text text-muted">Optional. Upload a photo of the vehicle (PNG/JPG).</small>
                   </div>
@@ -337,8 +355,8 @@
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
               <div class="text-secondary small">All Stripe payments stored in DB</div>
               <div class="d-flex flex-wrap gap-2 align-items-center">
-                <input id="paymentSearch" class="form-control form-control-sm" placeholder="Search booking/customer" style="max-width:220px;" />
-                <select id="paymentStatus" class="form-select form-select-sm" style="max-width:160px;">
+                <input id="paymentSearch" class="form-control form-control-sm payment-search-input" placeholder="Search booking/customer" />
+                <select id="paymentStatus" class="form-select form-select-sm payment-status-select" aria-label="Payment Status">
                   <option value="">All Status</option>
                   <option value="succeeded">Succeeded</option>
                   <option value="pending">Pending</option>
@@ -395,99 +413,6 @@
                 <tbody></tbody>
               </table>
             </div>
-          </div>
-        </section>
-
-        <!-- SETTINGS SECTION -->
-        <section id="section-settings" class="ap-section d-none">
-          <div class="ap-card p-3">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <div class="ap-section-title">Site Settings & Configuration</div>
-              <button class="btn btn-primary btn-sm" id="saveSettingsBtn">Save Settings</button>
-            </div>
-            <div id="settingsAlert" class="alert d-none small"></div>
-
-            <form id="settingsForm">
-              <div class="row g-4">
-                <!-- General Info -->
-                <div class="col-12 col-xl-6">
-                  <h6 class="border-bottom pb-2">General Information</h6>
-                  <div class="mb-2">
-                    <label class="form-label small">Contact Phone</label>
-                    <input type="text" class="form-control form-control-sm" name="site_phone" placeholder="+923001234567" />
-                  </div>
-                  <div class="mb-2">
-                    <label class="form-label small">Contact Email</label>
-                    <input type="email" class="form-control form-control-sm" name="site_email" placeholder="info@autozone.com" />
-                  </div>
-                  <div class="mb-2">
-                    <label class="form-label small">Office Address</label>
-                    <input type="text" class="form-control form-control-sm" name="site_address" placeholder="Lahore, Pakistan" />
-                  </div>
-                  <h6 class="border-bottom pb-2 mt-4">Social Links</h6>
-                  <div class="mb-2">
-                    <label class="form-label small">Facebook URL</label>
-                    <input type="url" class="form-control form-control-sm" name="social_facebook" placeholder="https://facebook.com/..." />
-                  </div>
-                  <div class="mb-2">
-                    <label class="form-label small">Instagram URL</label>
-                    <input type="url" class="form-control form-control-sm" name="social_instagram" placeholder="https://instagram.com/..." />
-                  </div>
-                  <div class="mb-2">
-                    <label class="form-label small">Twitter URL</label>
-                    <input type="url" class="form-control form-control-sm" name="social_twitter" placeholder="https://twitter.com/..." />
-                  </div>
-                </div>
-
-                <!-- Chatbot & Integrations -->
-                <div class="col-12 col-xl-6">
-                  <h6 class="border-bottom pb-2">Chatbot Configuration</h6>
-                  <div class="mb-3">
-                    <label class="form-label small">System Prompt Instructions</label>
-                    <textarea class="form-control form-control-sm" name="chatbot_system_prompt" rows="8" placeholder="Enter instructions for the AI chatbot..."></textarea>
-                    <small class="text-secondary">This prompt dictates how the AI behaves. The live car inventory will be appended automatically.</small>
-                  </div>
-
-                  <h6 class="border-bottom pb-2">Email / SMTP Integration</h6>
-                  <div class="row g-2">
-                    <div class="col-8">
-                      <label class="form-label small">SMTP Host</label>
-                      <input type="text" class="form-control form-control-sm" name="smtp_host" />
-                    </div>
-                    <div class="col-4">
-                      <label class="form-label small">Port</label>
-                      <input type="text" class="form-control form-control-sm" name="smtp_port" placeholder="587" />
-                    </div>
-                    <div class="col-6">
-                      <label class="form-label small">SMTP User</label>
-                      <input type="text" class="form-control form-control-sm" name="smtp_user" />
-                    </div>
-                    <div class="col-6">
-                      <label class="form-label small">SMTP Pass</label>
-                      <input type="password" class="form-control form-control-sm" name="smtp_pass" />
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label small">Sender Email (From)</label>
-                      <input type="text" class="form-control form-control-sm" name="smtp_from" />
-                    </div>
-                  </div>
-
-                  <h6 class="border-bottom pb-2 mt-4">Twilio SMS Integration</h6>
-                  <div class="mb-2">
-                    <label class="form-label small">Account SID</label>
-                    <input type="text" class="form-control form-control-sm" name="twilio_account_sid" />
-                  </div>
-                  <div class="mb-2">
-                    <label class="form-label small">Auth Token</label>
-                    <input type="password" class="form-control form-control-sm" name="twilio_auth_token" />
-                  </div>
-                  <div class="mb-2">
-                    <label class="form-label small">Sender Phone Number</label>
-                    <input type="text" class="form-control form-control-sm" name="twilio_from" />
-                  </div>
-                </div>
-              </div>
-            </form>
           </div>
         </section>
       </div>

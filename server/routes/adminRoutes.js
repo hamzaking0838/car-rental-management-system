@@ -7,17 +7,13 @@ const carController = require("../controllers/carController");
 const customerController = require("../controllers/customerController");
 const paymentController = require("../controllers/paymentController");
 
-// Multer setup for car image uploads.  Images are stored in the
-// `uploads/` directory and served as static files.  Filenames are
-// timestamped to avoid collisions.
+// Multer setup for car image uploads.
 const multer = require('multer');
 const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // Store car images alongside other uploads in server/uploads.  This path is
-    // relative to this route file, so '../uploads' resolves to
-    // project_availability/server/uploads.
+    // Store car images alongside other uploads in server/uploads.
     cb(null, path.join(__dirname, '../uploads'));
   },
   filename: function (req, file, cb) {
@@ -83,8 +79,7 @@ router.get(
 router.get("/cars", adminController.authenticate, carController.getAllCarsAdmin);
 
 // create a new car
-// When creating a car, accept an optional image file.  The multer
-// middleware will populate req.file with the uploaded file.
+
 router.post(
   "/cars",
   adminController.authenticate,
@@ -93,8 +88,7 @@ router.post(
 );
 
 //  update car fields
-// For updates, also allow uploading a new image file.  If no file is
-// provided then the existing image remains unchanged.
+
 router.put(
   "/cars/:id",
   adminController.authenticate,

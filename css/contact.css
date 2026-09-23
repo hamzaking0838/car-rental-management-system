@@ -114,7 +114,7 @@
 .fade-up {
   opacity: 0;
   transform: translateY(40px);
-  transition: all 1s ease;
+  transition: all 0.1s ease;
 }
 .fade-up.animate {
   opacity: 1;

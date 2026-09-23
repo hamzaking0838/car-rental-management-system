@@ -1,16 +1,18 @@
 const nodemailer = require('nodemailer');
 const db = require('../config/db');
+const fs = require('fs');
+const path = require('path');
+
+function logEmailError(msg) {
+  try {
+    fs.appendFileSync(path.join(__dirname, '../email-error.log'), new Date().toISOString() + ' - ' + msg + '\n');
+  } catch (e) {}
+}
 
 async function getSettingsFromDb() {
-  return new Promise((resolve) => {
-    db.query("SELECT setting_key, setting_value FROM site_settings", (err, rows) => {
-      const config = {};
-      if (!err && rows) {
-        rows.forEach(r => config[r.setting_key] = r.setting_value);
-      }
-      resolve(config);
-    });
-  });
+  // site_settings table was deleted by the user, so we just return an empty object
+  // to force the notifier to use process.env (.env file) values.
+  return {};
 }
 
 async function getTwilioClient(config) {
@@ -39,7 +41,17 @@ function makeTransporter(config) {
   const secure = secureStr.toLowerCase() === 'true' || port === 465;
   const user = config.smtp_user || process.env.SMTP_USER;
   const pass = config.smtp_pass || process.env.SMTP_PASS;
-  return nodemailer.createTransport({ host, port, secure, auth: { user, pass } });
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth: { user, pass },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+    logger: false,
+    debug: false
+  });
 }
 
 /* ─────────────────────────────────────────────
@@ -276,18 +288,90 @@ function passwordResetHtml(code, siteName) {
 
 async function sendEmail(to, subject, text, htmlContent) {
   const config = await getSettingsFromDb();
-  if (!canEmail(config)) return { ok: false, skipped: true, reason: 'SMTP not configured' };
+  if (!canEmail(config)) {
+    logEmailError('SMTP not configured - canEmail returned false');
+    return { ok: false, skipped: true, reason: 'SMTP not configured' };
+  }
   const from = config.smtp_from || process.env.SMTP_FROM || config.smtp_user || process.env.SMTP_USER;
   const transporter = makeTransporter(config);
-  const mailOptions = { from, to, subject };
+  
+  // Verify connection before sending
+  try {
+    await transporter.verify();
+  } catch (verifyErr) {
+    console.error('[EMAIL] SMTP connection verification FAILED:', verifyErr.message);
+    console.error('[EMAIL] Full error:', verifyErr);
+    logEmailError('SMTP connection verification FAILED: ' + verifyErr.message);
+    return { ok: false, error: 'SMTP connection failed: ' + verifyErr.message };
+  }
+  
+  const mailOptions = { 
+    from, 
+    to, 
+    replyTo: from,
+    subject,
+    headers: {
+      'X-Entity-Ref-ID': Date.now().toString(),
+      'X-Mailer': 'Nodemailer',
+      'Precedence': 'bulk'
+    }
+  };
+  
   if (htmlContent) {
     mailOptions.html = htmlContent;
     mailOptions.text = text;
   } else {
     mailOptions.text = text;
   }
-  await transporter.sendMail(mailOptions);
-  return { ok: true };
+  
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    return { ok: true, messageId: info.messageId };
+  } catch (sendErr) {
+    console.error('[EMAIL] Failed to send email:', sendErr.message);
+    console.error('[EMAIL] Error code:', sendErr.code, '| Command:', sendErr.command);
+    logEmailError('Failed to send email: ' + sendErr.message + ' | Code: ' + sendErr.code);
+    throw sendErr;
+  }
+}
+
+/**
+ * Diagnostic function to test email connectivity.
+ * Call via GET /api/test-email to diagnose issues.
+ */
+async function testEmailConnection() {
+  const config = await getSettingsFromDb();
+  const result = {
+    canEmail: canEmail(config),
+    smtpHost: config.smtp_host || process.env.SMTP_HOST || 'NOT SET',
+    smtpPort: config.smtp_port || process.env.SMTP_PORT || '587',
+    smtpUser: (config.smtp_user || process.env.SMTP_USER || 'NOT SET').substring(0, 8) + '***',
+    smtpPassSet: !!(config.smtp_pass || process.env.SMTP_PASS),
+    smtpFrom: config.smtp_from || process.env.SMTP_FROM || 'NOT SET',
+    dbConfigKeys: Object.keys(config)
+  };
+  
+  if (!result.canEmail) {
+    result.error = 'SMTP not configured - check host/user/pass settings';
+    return result;
+  }
+  
+  const transporter = makeTransporter(config);
+  try {
+    await transporter.verify();
+    result.connectionTest = 'SUCCESS - SMTP server responded';
+  } catch (err) {
+    result.connectionTest = 'FAILED';
+    result.connectionError = err.message;
+    result.errorCode = err.code;
+    result.suggestion = err.message.includes('535') || err.message.includes('auth') 
+      ? 'App Password may be expired or invalid. Generate a new App Password from Google Account > Security > 2-Step Verification > App passwords'
+      : err.message.includes('ECONNREFUSED') 
+        ? 'Cannot connect to SMTP server. Check if host and port are correct.'
+        : 'Check SMTP settings and try again.';
+  }
+  
+  return result;
 }
 
 async function sendSms(to, text) {
@@ -327,13 +411,17 @@ async function notifyBookingConfirmed({ bookingId, customerName, email, phone, c
   // Email
   try {
     if (email) {
+      logEmailError('Preparing to send email to ' + email + ' for booking ' + bookingId);
       const html = bookingApprovedHtml(customerName, bookingId, carName, pickupDate, pickupTime, siteName);
       const plain = `Dear ${customerName},\n\nYour booking (#${bookingId}) has been approved.\nVehicle: ${carName || 'Your selected vehicle'}\nPickup: ${pickupDate || ''} ${pickupTime || ''}\n\nPlease bring your CNIC and Driving License at pickup.\n\nBest Regards,\n${siteName} Team`;
       summary.email = await sendEmail(email, `Booking Approved – #${bookingId}`, plain, html);
+      logEmailError('SendEmail result: ' + JSON.stringify(summary.email));
     } else {
+      logEmailError('Skipped email: no email address provided for booking ' + bookingId);
       summary.email = { ok: false, skipped: true, reason: 'No email' };
     }
   } catch (e) {
+    logEmailError('Exception in notifyBookingConfirmed for email: ' + e.message);
     summary.email = { ok: false, error: e.message };
   }
 
@@ -352,4 +440,4 @@ async function notifyBookingConfirmed({ bookingId, customerName, email, phone, c
   return summary;
 }
 
-module.exports = { notifyBookingReceived, notifyBookingConfirmed, sendEmail, passwordResetHtml };
+module.exports = { notifyBookingReceived, notifyBookingConfirmed, sendEmail, passwordResetHtml, testEmailConnection };

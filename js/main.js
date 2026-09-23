@@ -89,13 +89,6 @@ document.addEventListener('sectionsLoaded', () => {
     .catch(err => console.error("Error loading site settings:", err));
 });
 
-
-
-
-
-
-
-
 // Protect booking links for guest users
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a');

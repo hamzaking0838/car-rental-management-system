@@ -13,13 +13,34 @@
   <!-- Theme variables and toggle styles -->
   <link rel="stylesheet" href="/css/theme-toggle.css" />
 </head>
+<style>
+#admin-header{
+  width:12px;
+  height:12px;
+}
+.booking-search{
+  max-width:260px;
+}
+.action-table{
+  width:140px;
+}
+.customer-search{
+  max-width:300px;
+}
+.payment-search{
+  max-width:220px;
+}
+.payment-status-select{
+  max-width:160px;
+}
+</style>
 
 <body class="gold-theme" class="admin-panel">
   <div class="d-flex ap-shell">
     <!-- Sidebar -->
     <aside class="ap-sidebar d-flex flex-column p-3">
       <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="rounded-circle bg-primary" style="width:12px;height:12px;"></div>
+        <div class="rounded-circle bg-primary" id="admin-header"></div>
         <div class="ap-brand">Car Rental Admin</div>
       </div>
       <div class="text-secondary small mb-3">Manage bookings, cars & payments</div>
@@ -123,7 +144,7 @@
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
               <div class="ap-section-title">All Bookings</div>
               <div class="d-flex gap-2">
-                <input id="bookingSearch" class="form-control form-control-sm" placeholder="Search name / phone" style="max-width:260px;" />
+                <input id="bookingSearch" class="form-control form-control-sm booking-search" placeholder="Search name / phone" />
                 <button class="btn btn-sm btn-outline-secondary" id="refreshBookings">Refresh</button>
               </div>
             </div>
@@ -144,7 +165,7 @@
                     <th>Booking Status</th>
                     <th>Payment</th>
                     <th>Notes</th>
-                    <th style="width:140px;">Action</th>
+                    <th class="action-table" >Action</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -159,7 +180,7 @@
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
               <div class="ap-section-title">Customers</div>
               <div class="d-flex gap-2">
-                <input id="customerSearch" class="form-control form-control-sm" placeholder="Search name / phone / email" style="max-width:300px;" />
+                <input id="customerSearch" class="form-control form-control-sm customer-search" placeholder="Search name / phone / email" />
                 <button class="btn btn-sm btn-outline-secondary" id="refreshCustomers">Refresh</button>
               </div>
             </div>
@@ -245,7 +266,7 @@
                   </div>
                   <div class="mb-2">
                     <label class="form-label small">Seats</label>
-                    <select class="form-select" id="carSeatsInput">
+                    <select class="form-select" id="carSeatsInput" aria-label="Seats">
                       <option value="">Select seats</option>
                       <option value="4">4</option>
                       <option value="5">5</option>
@@ -254,7 +275,7 @@
                   </div>
                     <div class="mb-2">
                       <label class="form-label small">AC</label>
-                      <select class="form-select" id="carAcInput">
+                      <select class="form-select" id="carAcInput" aria-label="AC">
                         <option value="">Select</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -262,7 +283,7 @@
                     </div>
                     <div class="mb-2">
                       <label class="form-label small">Fuel Type</label>
-                      <select class="form-select" id="carFuelTypeInput">
+                      <select class="form-select" id="carFuelTypeInput" aria-label="Fuel Type">
                         <option value="">Select fuel</option>
                         <option value="Petrol">Petrol</option>
                         <option value="Diesel">Diesel</option>
@@ -271,14 +292,14 @@
                     </div>
                   <div class="mb-2">
                     <label class="form-label small">Transmission</label>
-                    <select class="form-select" id="carTransmissionInput">
+                    <select class="form-select" id="carTransmissionInput" aria-label="Transmission">
                       <option value="">Select</option>
                       <option value="Manual">Manual</option>
                       <option value="Automatic">Automatic</option>
                     </select>
                   </div>
                   <div class="mb-2">
-                    <label class="form-label small">Image</label>
+                    <label for="carImageInput" class="form-label small">Image</label>
                     <!-- Allow the admin to upload a photo for the car.  The file will be stored
                          on the server and its filename saved in the database.  Supported
                          formats are common image types such as JPG and PNG. -->
@@ -308,8 +329,8 @@
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
               <div class="text-secondary small">All Stripe payments stored in DB</div>
               <div class="d-flex flex-wrap gap-2 align-items-center">
-                <input id="paymentSearch" class="form-control form-control-sm" placeholder="Search booking/customer" style="max-width:220px;" />
-                <select id="paymentStatus" class="form-select form-select-sm" style="max-width:160px;">
+                <input id="paymentSearch" class="form-control form-control-sm payment-search" placeholder="Search booking/customer" />
+                <select id="paymentStatus" class="form-select form-select-sm payment-status-select" aria-label="Payment Status">
                   <option value="">All Status</option>
                   <option value="succeeded">Succeeded</option>
                   <option value="pending">Pending</option>
@@ -372,8 +393,7 @@
     </main>
   </div>
 
-  <!-- Theme toggle script applied to the admin dashboard. This will read the
-       saved theme from localStorage and apply the gold or default palette. -->
+ 
   <script src="/js/theme-toggle.js"></script>
   <script src="/js/admin_dashboard.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

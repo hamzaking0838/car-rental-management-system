@@ -1,26 +1,7 @@
-/*
- * car_details_data.js
- *
- * A simple data module exporting a mapping of car names to their
- * corresponding specification details. Each entry contains a set of
- * attributes describing key information about the car, such as
- * engine displacement, fuel type, seating capacity, transmission,
- * power output and fuel tank capacity.  Where multiple trims share
- * the same mechanical specifications (e.g. manual vs automatic), a
- * single record is used to avoid duplication.  For models where
- * public specification data could not be reliably found, a generic
- * placeholder object is provided.  The availability of a car is
- * determined at runtime in car_details.js by consulting the API.
- */
+
 
 export const carDetailsData = {
-  /*
-   * Changan Karvaan EURO IV – 2026
-   * Source: Changan South specification sheet.  The microvan is
-   * equipped with a 40‑litre fuel tank, 7‑seat configuration (with
-   * one optional jump seat), 5‑speed manual gearbox, front‑wheel
-   * drive and a manual transmission【966213374319494†L283-L290】.
-   */
+  
   'Changan Karvaan': {
     name: 'Changan Karvaan',
     engine: 'Euro IV, 997 cc',
@@ -42,13 +23,7 @@ export const carDetailsData = {
     transmissionType: 'Manual'
   },
 
-  /*
-   * Suzuki Mehran (796 cc)
-   * Key specifications: 3‑cylinder OHC engine, 796 cc displacement,
-   * power output of 39 hp at 5,500 rpm, torque of 59 Nm at 3,000 rpm,
-   * 4‑speed manual transmission and petrol fuel.  The hatchback
-   * seats five and carries a 30‑litre fuel tank【973097488209541†L80-L96】【973097488209541†L121-L123】.
-   */
+  
   'Mehran': {
     name: 'Suzuki Mehran',
     engine: '3‑cylinder OHC, 796 cc',

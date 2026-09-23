@@ -5,7 +5,7 @@ document.addEventListener("sectionsLoaded", () => {
   elements.forEach((el, i) => {
     setTimeout(() => {
       el.classList.add("animate");
-    }, i * 300);
+    }, i * 165);
   });
 
   // Contact form submission handling

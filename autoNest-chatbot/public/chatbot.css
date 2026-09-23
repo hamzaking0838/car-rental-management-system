@@ -14,13 +14,7 @@
 }
 
 /*
- * When the gold theme is active on the document body, override the chat
- * widget palette variables to mirror the active primary colours.  The
- * variables defined in theme-toggle.css (e.g. --primary-color) update
- * according to the selected palette.  Applying them here ensures the
- * chatbot widget seamlessly adapts without requiring JavaScript to set
- * inline styles.  The fallback values preserve the original gold hues
- * if the primary variables are undefined.
+ * When the gold theme is active on the document body
  */
 body.gold-theme {
   --brand: var(--primary-color, #FFD700);

@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     cars: document.getElementById("section-cars"),
     payments: document.getElementById("section-payments"),
     contacts: document.getElementById("section-contacts"),
-    settings: document.getElementById("section-settings"),
   };
 
   // Dashboard widgets
@@ -69,14 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const carImageInput = document.getElementById("carImageInput");
   const carCancelEditBtn = document.getElementById("carCancelEditBtn");
 
-  // =============================================
+
   // Responsive sidebar toggle
-  // The admin panel uses a collapsible sidebar on small screens. When the
-  // hamburger icon (#menuToggle) is clicked, the sidebar will slide into
-  // view and an overlay will cover the rest of the page. Clicking the
-  // overlay hides the sidebar again. These elements are present in the
-  // dashboard.html markup. We set up the event listeners here so that
-  // navigation works even before authentication checks complete.
+  
   const menuToggleBtn = document.getElementById('menuToggle');
   const apSidebar = document.querySelector('.ap-sidebar');
   const apOverlay = document.querySelector('.ap-overlay');
@@ -99,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let allCars = [];
   let allCustomers = [];
   let allPayments = [];
+  let bookingCalendar = null;
 
   const redirectToLogin = () => {
     localStorage.removeItem("adminToken");
@@ -299,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         const data = await res.json();
         if (!data.success) throw new Error(data.message || "Save failed");
-        showCarHint(id ? "Car updated ✅" : "Car created ✅");
+        showCarHint(id ? "Car updated successfully" : "Car created successfully");
         resetCarForm();
         loadCars();
       } catch (err) {
@@ -312,79 +307,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =============================================
-  // Settings API
-  // =============================================
-  const settingsForm = document.getElementById("settingsForm");
-  const saveSettingsBtn = document.getElementById("saveSettingsBtn");
-  const settingsAlert = document.getElementById("settingsAlert");
 
-  function loadSettings() {
-    fetch("/api/admin/settings", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.settings && settingsForm) {
-          Object.entries(data.settings).forEach(([key, value]) => {
-            const input = settingsForm.elements[key];
-            if (input) {
-              input.value = value;
-            }
-          });
-        }
-      })
-      .catch((err) => console.error("Error loading settings:", err));
-  }
-
-  if (saveSettingsBtn && settingsForm) {
-    saveSettingsBtn.addEventListener("click", () => {
-      const formData = new FormData(settingsForm);
-      const settingsObj = {};
-      formData.forEach((value, key) => {
-        settingsObj[key] = value;
-      });
-
-      saveSettingsBtn.disabled = true;
-      saveSettingsBtn.textContent = "Saving...";
-
-      fetch("/api/admin/settings", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(settingsObj)
-      })
-        .then(res => res.json())
-        .then(data => {
-          settingsAlert.className = "alert mt-3 small " + (data.success ? "alert-success" : "alert-danger");
-          settingsAlert.textContent = data.message || "Settings updated!";
-          settingsAlert.classList.remove("d-none");
-          setTimeout(() => settingsAlert.classList.add("d-none"), 3000);
-        })
-        .catch(err => {
-          settingsAlert.className = "alert mt-3 small alert-danger";
-          settingsAlert.textContent = "Error saving settings";
-          settingsAlert.classList.remove("d-none");
-        })
-        .finally(() => {
-          saveSettingsBtn.disabled = false;
-          saveSettingsBtn.textContent = "Save Settings";
-        });
-    });
-  }
-
-  // =============================================
   // Data Loading
-  // =============================================
+ 
   function loadAllData() {
     loadBookings();
     loadContacts();
     loadCars();
     loadCustomers();
     loadPayments();
-    loadSettings();
   }
 
   // Fetch and render customers (admin)
@@ -748,7 +679,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           const data = await res.json();
           if (!data.success) throw new Error(data.message || "Delete failed");
-          showCarHint("Car deleted ✅");
+          showCarHint("Car deleted successfully");
           resetCarForm();
           loadCars();
         } catch (err) {
@@ -771,7 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           const data = await res.json();
           if (!data.success) throw new Error(data.message || "Update failed");
-          showCarHint("Availability updated ✅");
+          showCarHint("Availability updated successfully");
         } catch (err) {
           showCarHint(err.message, true);
           // revert UI
@@ -814,7 +745,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (carColorInput) carColorInput.value = car.color || "";
     if (carPriceInput) carPriceInput.value = car.price_per_day ?? "";
     if (carAvailableInput) carAvailableInput.checked = !!car.available;
-    // populate specification fields
     if (carModelYearInput) carModelYearInput.value = car.model_year || "";
     if (carBrandInput) carBrandInput.value = car.brand || "";
     if (carSeatsInput) carSeatsInput.value = car.seats || "";
@@ -946,10 +876,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  // =============================================
   // Calendar & Analytics
   // =============================================
-  let bookingCalendar = null;
+  // Calendar init handled inside function
   function initCalendar() {
     const calendarEl = document.getElementById("bookingCalendar");
     if (!calendarEl || bookingCalendar || !window.FullCalendar) return;

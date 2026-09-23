@@ -235,29 +235,15 @@ user-select: none;
    Custom enhancements
    ======================= */
 
-/* Icons in the sidebar navigation.  Each link can contain a FontAwesome icon
-   before the text; this class ensures consistent spacing between the icon
-   and label. */
+/* Icons in the sidebar navigation.  */
 .ap-nav .nav-link i {
   margin-right: 8px;
   font-size: 1rem;
 }
 
 /* Dashboard metric cards adopt a gradient drawn from the car cards on the
-   frontend.  These cards display summary statistics such as total bookings
-   or available cars.  They use white text to maintain contrast against
-   the colourful background. */
-/*
- * Dashboard metric cards were previously styled with a vivid gradient and white
- * text.  While this looked appealing in the default aqua theme, it caused
- * problems when switching to the gold palette – the gradient remained aqua
- * and created poor contrast.  To simplify the appearance and ensure theme
- * colours propagate correctly, these cards now have a transparent/white
- * background and a coloured border that tracks the active accent colour via
- * --ap-primary.  The card text adopts the dark colour variable so it stays
- * legible on the lighter background.  We also remove the heavy box shadow
- * and rely on a subtle shadow on hover defined on the base .ap-card class.
- */
+   frontend. */
+
 .ap-metric-card {
   /* Inherit the base card background (white) instead of a gradient */
   background: #ffffff;
@@ -271,25 +257,18 @@ user-select: none;
 
 /*
  * Highlight the primary statistic within each metric card using the accent
- * colour.  The large number is marked up with Bootstrap’s .fw-bold class,
- * so this rule targets that element specifically to ensure it adopts
- * var(--ap-primary) regardless of the surrounding text colour.
+ * colour.
  */
 .ap-metric-card .fw-bold {
   color: var(--ap-primary);
 }
 
-/* Override the secondary text colour inside metric cards.  Use a slightly
-   muted version of the dark colour instead of white to maintain contrast
-   and visual hierarchy.  Bootstrap’s .text-secondary normally renders
-   grey text; we tie it to the dark colour at reduced opacity. */
+/* Override the secondary text colour inside metric cards. */
 .ap-metric-card .text-secondary {
   color: rgba(var(--ap-primary-rgb), 0.8) !important;
 }
 
-/* Adjust the appearance of the top bar to better match the sidebar.  Using
-   a subtle gradient and white text ties together the overall look and feels
-   consistent with the dark aesthetic of the site. */
+/* Adjust the appearance of the top bar to better match the sidebar. */
 .ap-topbar {
   background: linear-gradient(145deg, var(--ap-dark), #071d3b);
   color: #ffffff;
